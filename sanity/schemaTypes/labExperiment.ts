@@ -91,6 +91,7 @@ export const labExperiment = defineType({
       group: 'classification',
       options: {
         list: [
+          {title: 'Developer tools', value: 'developerTools'},
           {title: 'Interaction', value: 'interaction'},
           {title: 'UI and forms', value: 'uiForms'},
           {title: 'Data and visualisation', value: 'dataViz'},

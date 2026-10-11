@@ -45,7 +45,7 @@ export function LabPresentation({
   if (experiment.coverImage) {
     return (
       <div
-        className={`relative overflow-hidden bg-surface-layer ${minimumHeight}`}
+        className={`relative overflow-hidden bg-surface-layer ${minimumHeight} h-full`}
       >
         <Image
           alt={experiment.coverImage.alt}
