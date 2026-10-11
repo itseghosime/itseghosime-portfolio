@@ -20,10 +20,12 @@ export async function getPublishedRoutes(baseUrl) {
   })
   const project = paths.find((pathname) => /^\/work\/[^/]+$/.test(pathname))
   const note = paths.find((pathname) => /^\/notes\/[^/]+$/.test(pathname))
+  const lab = paths.find((pathname) => /^\/lab\/[^/]+$/.test(pathname))
   return [
     ...CORE_ROUTES,
     ...(project ? [{path: project, label: 'Project Detail'}] : []),
     ...(note ? [{path: note, label: 'Note Detail'}] : []),
+    ...(lab ? [{path: lab, label: 'Lab Detail'}] : []),
   ]
 }
 

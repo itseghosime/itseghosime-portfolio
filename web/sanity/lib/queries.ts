@@ -414,6 +414,36 @@ export const PROJECT_PAGE_QUERY = defineQuery(`{
   }
 }`);
 
+const LAB_EXPERIMENT_PROJECTION = `{
+  _id, title, "slug": slug.current, summary, question, status,
+  startedAt, completedAt, demoUrl, repositoryUrl, featured, displayOrder,
+  experimentNumber, category, version, presentation,
+  "coverImage": coverImage ${IMAGE_PROJECTION},
+  "technologies": technologies[]->{name}
+}`;
+
+export const LAB_EXPERIMENT_SLUGS_QUERY = defineQuery(`
+  *[_type == "labExperiment" && defined(slug.current)]{"slug": slug.current}
+`);
+
+export const LAB_EXPERIMENT_QUERY = defineQuery(`
+  *[_type == "labExperiment" && slug.current == $slug][0]{
+    ...${LAB_EXPERIMENT_PROJECTION},
+    body[]{
+      ...,
+      _type == "accessibleImage" => {
+        "url": asset->url,
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height,
+        "lqip": asset->metadata.lqip
+      }
+    },
+    findings[]{_key, title, description},
+    "relatedProject": relatedProject->{title, "slug": slug.current},
+    seo{title, description, noIndex, "image": image ${IMAGE_PROJECTION}}
+  }
+`);
+
 export const LAB_PAGE_QUERY = defineQuery(`{
   "labPage": *[_id == "labPage"][0]{
     eyebrow,
@@ -440,26 +470,7 @@ export const LAB_PAGE_QUERY = defineQuery(`{
   "labExperiments": *[
     _type == "labExperiment" &&
     defined(slug.current)
-  ] | order(displayOrder asc, _createdAt desc){
-    _id,
-    title,
-    "slug": slug.current,
-    summary,
-    question,
-    status,
-    startedAt,
-    completedAt,
-    demoUrl,
-    repositoryUrl,
-    featured,
-    displayOrder,
-    experimentNumber,
-    category,
-    version,
-    presentation,
-    "coverImage": coverImage ${IMAGE_PROJECTION},
-    "technologies": technologies[]->{name}
-  }
+  ] | order(displayOrder asc, _createdAt desc)${LAB_EXPERIMENT_PROJECTION}
 }`);
 
 export const NOTES_ARCHIVE_QUERY = defineQuery(`{
@@ -651,6 +662,9 @@ export const NOTE_DETAIL_QUERY = defineQuery(`{
 }`);
 
 export const SITEMAP_QUERY = defineQuery(`{
+  "labExperiments": *[
+    _type == "labExperiment" && defined(slug.current) && seo.noIndex != true
+  ]{"path": "/lab/" + slug.current, _updatedAt},
   "staticPages": [
     {
       "path": "/",

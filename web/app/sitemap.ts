@@ -17,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const data = await sanityClient.fetch<{
       notes: SitemapDocument[];
+      labExperiments: SitemapDocument[];
       projects: SitemapDocument[];
       staticPages: SitemapDocument[];
     }>(SITEMAP_QUERY);
@@ -36,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const contentEntries: MetadataRoute.Sitemap = [
       ...(data.projects ?? []),
       ...(data.notes ?? []),
+      ...(data.labExperiments ?? []),
     ].map((document) => ({
       changeFrequency: "monthly",
       lastModified: document._updatedAt

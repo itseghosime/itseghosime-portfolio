@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 import type { LabExperimentModel } from "@/types/lab";
 
@@ -12,27 +13,17 @@ type LabExperimentCardProps = {
 function ExperimentAction({ experiment }: { experiment: LabExperimentModel }) {
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-black/[0.08] pt-5 font-mono text-[0.6875rem]">
-      {experiment.demoUrl ? (
-        <a
-          className="group/link inline-flex min-h-11 items-center gap-2 font-semibold text-ink no-underline hover:text-accent"
-          href={experiment.demoUrl}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Open experiment
-          <ArrowRight
-            aria-hidden="true"
-            className="transition-transform group-hover/link:translate-x-1"
-            size={14}
-          />
-        </a>
-      ) : (
-        <span className="inline-flex min-h-11 items-center font-semibold text-ink-muted">
-          {experiment.status === "Planned"
-            ? "In development"
-            : "Demo coming soon"}
-        </span>
-      )}
+      <Link
+        className="group/link inline-flex min-h-11 items-center gap-2 font-semibold text-ink no-underline hover:text-accent"
+        href={`/lab/${experiment.slug}`}
+      >
+        Open experiment
+        <ArrowRight
+          aria-hidden="true"
+          className="transition-transform group-hover/link:translate-x-1"
+          size={14}
+        />
+      </Link>
       {experiment.sourceUrl ? (
         <a
           className="inline-flex min-h-11 items-center gap-1.5 text-ink-muted no-underline hover:text-ink"
@@ -59,7 +50,12 @@ function ExperimentCopy({ experiment }: { experiment: LabExperimentModel }) {
         </span>
       </div>
       <h3 className="font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.08] tracking-[-0.03em] text-ink">
-        {experiment.title}
+        <Link
+          href={`/lab/${experiment.slug}`}
+          className="no-underline hover:text-accent-text"
+        >
+          {experiment.title}
+        </Link>
       </h3>
       <p className="text-[0.9375rem] leading-7 text-ink-soft">
         {experiment.summary}
@@ -103,7 +99,12 @@ export function LabExperimentCard({
               ) : null}
             </div>
             <h2 className="font-serif text-[clamp(2rem,3.6vw,3rem)] leading-[1.02] tracking-[-0.035em] text-ink">
-              {experiment.title}
+              <Link
+                href={`/lab/${experiment.slug}`}
+                className="no-underline hover:text-accent-text"
+              >
+                {experiment.title}
+              </Link>
             </h2>
             <p className="text-[0.9375rem] leading-7 text-ink-soft">
               {experiment.summary}

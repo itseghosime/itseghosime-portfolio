@@ -2084,8 +2084,153 @@ export type PROJECT_PAGE_QUERY_RESULT = {
 };
 
 // Source: ../web/sanity/lib/queries.ts
+// Variable: LAB_EXPERIMENT_SLUGS_QUERY
+// Query: *[_type == "labExperiment" && defined(slug.current)]{"slug": slug.current}
+export type LAB_EXPERIMENT_SLUGS_QUERY_RESULT = Array<{
+  slug: string | null;
+}>;
+
+// Source: ../web/sanity/lib/queries.ts
+// Variable: LAB_EXPERIMENT_QUERY
+// Query: *[_type == "labExperiment" && slug.current == $slug][0]{    ...{  _id, title, "slug": slug.current, summary, question, status,  startedAt, completedAt, demoUrl, repositoryUrl, featured, displayOrder,  experimentNumber, category, version, presentation,  "coverImage": coverImage {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  "technologies": technologies[]->{name}},    body[]{      ...,      _type == "accessibleImage" => {        "url": asset->url,        "width": asset->metadata.dimensions.width,        "height": asset->metadata.dimensions.height,        "lqip": asset->metadata.lqip      }    },    findings[]{_key, title, description},    "relatedProject": relatedProject->{title, "slug": slug.current},    seo{title, description, noIndex, "image": image {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}}  }
+export type LAB_EXPERIMENT_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  summary: string | null;
+  question: string | null;
+  status: "archived" | "completed" | "exploring" | "paused" | "planned" | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  demoUrl: string | null;
+  repositoryUrl: string | null;
+  featured: boolean | null;
+  displayOrder: number | null;
+  experimentNumber: number | null;
+  category:
+    | "dataViz"
+    | "developerTools"
+    | "interaction"
+    | "motion"
+    | "threeDShaders"
+    | "uiForms"
+    | null;
+  version: string | null;
+  presentation:
+    | "autonomousMicroForm"
+    | "kineticTypography"
+    | "magneticNavigation"
+    | "none"
+    | "spatialDepth"
+    | "springCarousel"
+    | "streamingData"
+    | null;
+  coverImage: {
+    alt: string | null;
+    caption: string | null;
+    url: string | null;
+    width: number | null;
+    height: number | null;
+    lqip: string | null;
+  } | null;
+  technologies: Array<{
+    name: string | null;
+  }> | null;
+  body: Array<
+    | {
+        _key: string;
+        _type: "accessibleImage";
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        caption?: string;
+        url: string | null;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      }
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h2" | "h3" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          openInNewTab?: boolean;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        _key: string;
+        _type: "codeBlock";
+        filename?: string;
+        language?:
+          | "css"
+          | "groq"
+          | "html"
+          | "javascript"
+          | "json"
+          | "jsx"
+          | "markdown"
+          | "python"
+          | "shell"
+          | "text"
+          | "tsx"
+          | "typescript";
+        code?: string;
+        caption?: string;
+      }
+    | {
+        _key: string;
+        _type: "noteComparison";
+        eyebrow?: string;
+        title?: string;
+        items?: Array<{
+          label?: string;
+          title?: string;
+          description?: string;
+          _type: "comparisonItem";
+          _key: string;
+        }>;
+      }
+  > | null;
+  findings: Array<{
+    _key: string;
+    title: string | null;
+    description: string | null;
+  }> | null;
+  relatedProject: {
+    title: string | null;
+    slug: string | null;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    noIndex: boolean | null;
+    image: {
+      alt: string | null;
+      caption: string | null;
+      url: string | null;
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: ../web/sanity/lib/queries.ts
 // Variable: LAB_PAGE_QUERY
-// Query: {  "labPage": *[_id == "labPage"][0]{    eyebrow,    heading,    introduction,    activeStudiesLabel,    surpriseLabel,    archiveEyebrow,    archiveHeading,    archiveNote,    closingEyebrow,    closingHeading,    closingMessage,    workLinkLabel,    githubLinkLabel,    contactLinkLabel,    seo{      title,      description,      noIndex,      "image": image {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    }  },  "labExperiments": *[    _type == "labExperiment" &&    defined(slug.current)  ] | order(displayOrder asc, _createdAt desc){    _id,    title,    "slug": slug.current,    summary,    question,    status,    startedAt,    completedAt,    demoUrl,    repositoryUrl,    featured,    displayOrder,    experimentNumber,    category,    version,    presentation,    "coverImage": coverImage {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},    "technologies": technologies[]->{name}  }}
+// Query: {  "labPage": *[_id == "labPage"][0]{    eyebrow,    heading,    introduction,    activeStudiesLabel,    surpriseLabel,    archiveEyebrow,    archiveHeading,    archiveNote,    closingEyebrow,    closingHeading,    closingMessage,    workLinkLabel,    githubLinkLabel,    contactLinkLabel,    seo{      title,      description,      noIndex,      "image": image {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip}    }  },  "labExperiments": *[    _type == "labExperiment" &&    defined(slug.current)  ] | order(displayOrder asc, _createdAt desc){  _id, title, "slug": slug.current, summary, question, status,  startedAt, completedAt, demoUrl, repositoryUrl, featured, displayOrder,  experimentNumber, category, version, presentation,  "coverImage": coverImage {  alt,  caption,  "url": asset->url,  "width": asset->metadata.dimensions.width,  "height": asset->metadata.dimensions.height,  "lqip": asset->metadata.lqip},  "technologies": technologies[]->{name}}}
 export type LAB_PAGE_QUERY_RESULT = {
   labPage:
     | {
@@ -2735,8 +2880,12 @@ export type NOTE_DETAIL_QUERY_RESULT = {
 
 // Source: ../web/sanity/lib/queries.ts
 // Variable: SITEMAP_QUERY
-// Query: {  "staticPages": [    {      "path": "/",      "_updatedAt": *[_id in ["profile", "siteSettings"]] | order(_updatedAt desc)[0]._updatedAt    },    {"path": "/about", "_updatedAt": *[_id == "aboutPage"][0]._updatedAt},    {"path": "/work", "_updatedAt": *[_id == "workPage"][0]._updatedAt},    {"path": "/lab", "_updatedAt": *[_id == "labPage"][0]._updatedAt},    {"path": "/notes", "_updatedAt": *[_id == "notesPage"][0]._updatedAt},    {      "path": "/contact",      "_updatedAt": *[_id in ["contactPage", "profile", "siteSettings"]]        | order(_updatedAt desc)[0]._updatedAt    }  ],  "projects": *[    _type == "project" &&    defined(slug.current) &&    seo.noIndex != true  ]{    "path": "/work/" + slug.current,    _updatedAt  },  "notes": *[    _type == "note" &&    defined(slug.current) &&    defined(publishedAt) &&    publishedAt <= now() &&    seo.noIndex != true  ]{    "path": "/notes/" + slug.current,    _updatedAt  }}
+// Query: {  "labExperiments": *[    _type == "labExperiment" && defined(slug.current) && seo.noIndex != true  ]{"path": "/lab/" + slug.current, _updatedAt},  "staticPages": [    {      "path": "/",      "_updatedAt": *[_id in ["profile", "siteSettings"]] | order(_updatedAt desc)[0]._updatedAt    },    {"path": "/about", "_updatedAt": *[_id == "aboutPage"][0]._updatedAt},    {"path": "/work", "_updatedAt": *[_id == "workPage"][0]._updatedAt},    {"path": "/lab", "_updatedAt": *[_id == "labPage"][0]._updatedAt},    {"path": "/notes", "_updatedAt": *[_id == "notesPage"][0]._updatedAt},    {      "path": "/contact",      "_updatedAt": *[_id in ["contactPage", "profile", "siteSettings"]]        | order(_updatedAt desc)[0]._updatedAt    }  ],  "projects": *[    _type == "project" &&    defined(slug.current) &&    seo.noIndex != true  ]{    "path": "/work/" + slug.current,    _updatedAt  },  "notes": *[    _type == "note" &&    defined(slug.current) &&    defined(publishedAt) &&    publishedAt <= now() &&    seo.noIndex != true  ]{    "path": "/notes/" + slug.current,    _updatedAt  }}
 export type SITEMAP_QUERY_RESULT = {
+  labExperiments: Array<{
+    path: string | null;
+    _updatedAt: string;
+  }>;
   staticPages: Array<
     | {
         path: "/";
@@ -2784,13 +2933,15 @@ declare global {
     '\n  *[_type == "project" && defined(slug.current)]{"slug": slug.current}\n': PROJECT_SLUGS_QUERY_RESULT;
     '\n  *[_type == "project" && slug.current == $slug][0]{\n    title,\n    subtitle,\n    summary,\n    "seo": seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n': PROJECT_METADATA_QUERY_RESULT;
     '{\n  "project": *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    subtitle,\n    summary,\n    role,\n    client,\n    year,\n    timeline,\n    projectType,\n    status,\n    liveUrl,\n    repositoryUrl,\n    "technologyStack": technologyStack[]->{_id, name},\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    "supportingImage": supportingImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    sections[]{\n      _key,\n      _type,\n      eyebrow,\n      heading,\n      headline,\n      introduction,\n      presentation,\n      body[]{\n        _key,\n        _type,\n        style,\n        listItem,\n        level,\n        children[]{_key, _type, text, marks},\n        markDefs[]{_key, _type, href, openInNewTab}\n      },\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n      items[]{\n        _key,\n        _type,\n        label,\n        title,\n        description,\n        kind,\n        value,\n        mediaType,\n        videoUrl,\n        caption,\n        displayContext,\n        "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n        "posterImage": posterImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n      },\n      steps[]{\n        _key,\n        _type,\n        phase,\n        title,\n        description,\n        deliverables,\n        "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n      },\n      snippets[]{\n        _key,\n        _type,\n        title,\n        filename,\n        language,\n        code,\n        explanation,\n        sourceUrl\n      },\n      embedUrl,\n      "fallbackImage": fallbackImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n      fallbackMessage,\n      instructions[]{_key, _type, title, description},\n      availableViewports,\n      initialViewport,\n      frameHeight,\n      summary,\n      closingNote\n    }\n  },\n  "projectNavigation": *[\n    _type == "project" &&\n    defined(slug.current)\n  ] | order(displayOrder asc, year desc){\n    _id,\n    title,\n    "slug": slug.current,\n    subtitle,\n    projectType,\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n}': PROJECT_PAGE_QUERY_RESULT;
-    '{\n  "labPage": *[_id == "labPage"][0]{\n    eyebrow,\n    heading,\n    introduction,\n    activeStudiesLabel,\n    surpriseLabel,\n    archiveEyebrow,\n    archiveHeading,\n    archiveNote,\n    closingEyebrow,\n    closingHeading,\n    closingMessage,\n    workLinkLabel,\n    githubLinkLabel,\n    contactLinkLabel,\n    seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    }\n  },\n  "labExperiments": *[\n    _type == "labExperiment" &&\n    defined(slug.current)\n  ] | order(displayOrder asc, _createdAt desc){\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    question,\n    status,\n    startedAt,\n    completedAt,\n    demoUrl,\n    repositoryUrl,\n    featured,\n    displayOrder,\n    experimentNumber,\n    category,\n    version,\n    presentation,\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    "technologies": technologies[]->{name}\n  }\n}': LAB_PAGE_QUERY_RESULT;
+    '\n  *[_type == "labExperiment" && defined(slug.current)]{"slug": slug.current}\n': LAB_EXPERIMENT_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "labExperiment" && slug.current == $slug][0]{\n    ...{\n  _id, title, "slug": slug.current, summary, question, status,\n  startedAt, completedAt, demoUrl, repositoryUrl, featured, displayOrder,\n  experimentNumber, category, version, presentation,\n  "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  "technologies": technologies[]->{name}\n},\n    body[]{\n      ...,\n      _type == "accessibleImage" => {\n        "url": asset->url,\n        "width": asset->metadata.dimensions.width,\n        "height": asset->metadata.dimensions.height,\n        "lqip": asset->metadata.lqip\n      }\n    },\n    findings[]{_key, title, description},\n    "relatedProject": relatedProject->{title, "slug": slug.current},\n    seo{title, description, noIndex, "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}}\n  }\n': LAB_EXPERIMENT_QUERY_RESULT;
+    '{\n  "labPage": *[_id == "labPage"][0]{\n    eyebrow,\n    heading,\n    introduction,\n    activeStudiesLabel,\n    surpriseLabel,\n    archiveEyebrow,\n    archiveHeading,\n    archiveNote,\n    closingEyebrow,\n    closingHeading,\n    closingMessage,\n    workLinkLabel,\n    githubLinkLabel,\n    contactLinkLabel,\n    seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    }\n  },\n  "labExperiments": *[\n    _type == "labExperiment" &&\n    defined(slug.current)\n  ] | order(displayOrder asc, _createdAt desc){\n  _id, title, "slug": slug.current, summary, question, status,\n  startedAt, completedAt, demoUrl, repositoryUrl, featured, displayOrder,\n  experimentNumber, category, version, presentation,\n  "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n  "technologies": technologies[]->{name}\n}\n}': LAB_PAGE_QUERY_RESULT;
     '{\n  "notesPage": *[_id == "notesPage"][0]{\n    eyebrow,\n    heading,\n    introduction,\n    archiveNote,\n    backLabel,\n    contentsLabel,\n    readerLabels{\n      sectionCount,\n      toolsHeading,\n      toolsBadge,\n      share,\n      copy,\n      copied,\n      typeface,\n      feedback\n    },\n    relatedHeading,\n    feedbackHeading,\n    feedbackMessage,\n    seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    }\n  },\n  "notes": *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now()\n  ] | order(displayOrder asc, publishedAt desc){\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    preview{label, summary, code},\n    publishedAt,\n    category,\n    volumeNumber,\n    readingTimeMinutes,\n    topics,\n    featured,\n    displayOrder,\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    "technologies": technologies[]->{_id, name}\n  }\n}': NOTES_ARCHIVE_QUERY_RESULT;
     '\n  *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now()\n  ]{"slug": slug.current}\n': NOTE_SLUGS_QUERY_RESULT;
     '\n  *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now() &&\n    seo.noIndex != true\n  ] | order(publishedAt desc){\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt\n  }\n': RSS_NOTES_QUERY_RESULT;
     '\n  *[_type == "note" && slug.current == $slug][0]{\n    _updatedAt,\n    title,\n    excerpt,\n    publishedAt,\n    preview{label, summary, code},\n    editorialContext{\n      sectionLabel,\n      seriesLabel\n    },\n    "seo": seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    },\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n  }\n': NOTE_METADATA_QUERY_RESULT;
     '{\n  "note": *[\n    _type == "note" &&\n    slug.current == $slug &&\n    defined(publishedAt) &&\n    publishedAt <= now()\n  ][0]{\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    excerpt,\n    preview{label, summary, code},\n    editorialContext{\n      sectionLabel,\n      seriesLabel\n    },\n    publishedAt,\n    category,\n    volumeNumber,\n    readingTimeMinutes,\n    topics,\n    "technologies": technologies[]->{_id, name},\n    "coverImage": coverImage {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n},\n    body[]{\n      _key,\n      _type,\n      style,\n      listItem,\n      level,\n      children[]{_key, _type, text, marks},\n      markDefs[]{_key, _type, href, openInNewTab},\n      filename,\n      language,\n      code,\n      caption,\n      eyebrow,\n      title,\n      items[]{_key, _type, label, title, description},\n      alt,\n      "url": asset->url,\n      "width": asset->metadata.dimensions.width,\n      "height": asset->metadata.dimensions.height,\n      "lqip": asset->metadata.lqip\n    },\n    seo{\n      title,\n      description,\n      noIndex,\n      "image": image {\n  alt,\n  caption,\n  "url": asset->url,\n  "width": asset->metadata.dimensions.width,\n  "height": asset->metadata.dimensions.height,\n  "lqip": asset->metadata.lqip\n}\n    }\n  },\n  "profile": *[_id == "profile"][0]{fullName, email},\n  "notesPage": *[_id == "notesPage"][0]{\n    backLabel,\n    contentsLabel,\n    readerLabels{\n      sectionCount,\n      toolsHeading,\n      toolsBadge,\n      share,\n      copy,\n      copied,\n      typeface,\n      feedback\n    },\n    relatedHeading,\n    feedbackHeading,\n    feedbackMessage\n  },\n  "noteNavigation": *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now()\n  ] | order(displayOrder asc, publishedAt desc){\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    preview{label, summary, code},\n    publishedAt,\n    category,\n    volumeNumber,\n    readingTimeMinutes,\n    topics,\n    "technologies": technologies[]->{_id, name}\n  }\n}': NOTE_DETAIL_QUERY_RESULT;
-    '{\n  "staticPages": [\n    {\n      "path": "/",\n      "_updatedAt": *[_id in ["profile", "siteSettings"]] | order(_updatedAt desc)[0]._updatedAt\n    },\n    {"path": "/about", "_updatedAt": *[_id == "aboutPage"][0]._updatedAt},\n    {"path": "/work", "_updatedAt": *[_id == "workPage"][0]._updatedAt},\n    {"path": "/lab", "_updatedAt": *[_id == "labPage"][0]._updatedAt},\n    {"path": "/notes", "_updatedAt": *[_id == "notesPage"][0]._updatedAt},\n    {\n      "path": "/contact",\n      "_updatedAt": *[_id in ["contactPage", "profile", "siteSettings"]]\n        | order(_updatedAt desc)[0]._updatedAt\n    }\n  ],\n  "projects": *[\n    _type == "project" &&\n    defined(slug.current) &&\n    seo.noIndex != true\n  ]{\n    "path": "/work/" + slug.current,\n    _updatedAt\n  },\n  "notes": *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now() &&\n    seo.noIndex != true\n  ]{\n    "path": "/notes/" + slug.current,\n    _updatedAt\n  }\n}': SITEMAP_QUERY_RESULT;
+    '{\n  "labExperiments": *[\n    _type == "labExperiment" && defined(slug.current) && seo.noIndex != true\n  ]{"path": "/lab/" + slug.current, _updatedAt},\n  "staticPages": [\n    {\n      "path": "/",\n      "_updatedAt": *[_id in ["profile", "siteSettings"]] | order(_updatedAt desc)[0]._updatedAt\n    },\n    {"path": "/about", "_updatedAt": *[_id == "aboutPage"][0]._updatedAt},\n    {"path": "/work", "_updatedAt": *[_id == "workPage"][0]._updatedAt},\n    {"path": "/lab", "_updatedAt": *[_id == "labPage"][0]._updatedAt},\n    {"path": "/notes", "_updatedAt": *[_id == "notesPage"][0]._updatedAt},\n    {\n      "path": "/contact",\n      "_updatedAt": *[_id in ["contactPage", "profile", "siteSettings"]]\n        | order(_updatedAt desc)[0]._updatedAt\n    }\n  ],\n  "projects": *[\n    _type == "project" &&\n    defined(slug.current) &&\n    seo.noIndex != true\n  ]{\n    "path": "/work/" + slug.current,\n    _updatedAt\n  },\n  "notes": *[\n    _type == "note" &&\n    defined(slug.current) &&\n    defined(publishedAt) &&\n    publishedAt <= now() &&\n    seo.noIndex != true\n  ]{\n    "path": "/notes/" + slug.current,\n    _updatedAt\n  }\n}': SITEMAP_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

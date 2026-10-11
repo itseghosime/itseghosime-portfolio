@@ -1,4 +1,7 @@
-import type { LAB_PAGE_QUERY_RESULT } from "@/sanity.types";
+import type {
+  LAB_PAGE_QUERY_RESULT,
+  LAB_EXPERIMENT_QUERY_RESULT,
+} from "@/sanity.types";
 import type { ImageAsset } from "@/types/home";
 import type {
   LabCategory,
@@ -11,6 +14,8 @@ import type {
 import { sanityFetch } from "./live";
 import { getContentFetchOptions } from "./fetch-options";
 import { LAB_PAGE_QUERY } from "./queries";
+import { LAB_EXPERIMENT_QUERY, LAB_EXPERIMENT_SLUGS_QUERY } from "./queries";
+import { sanityClient } from "./client";
 
 const defaultLabPage: LabPageModel = {
   eyebrow: "LAB ARCHIVE // EXPERIMENTS IN INTERACTION & CREATIVE CODE",
@@ -117,61 +122,89 @@ function toPageModel(page: LAB_PAGE_QUERY_RESULT["labPage"]): LabPageModel {
   };
 }
 
+export function toLabExperiment(
+  experiment: LAB_PAGE_QUERY_RESULT["labExperiments"][number],
+  index = 0,
+): LabExperimentModel[] {
+  if (
+    !experiment._id ||
+    !experiment.title ||
+    !experiment.slug ||
+    !experiment.summary
+  )
+    return [];
+
+  const technologyNames =
+    experiment.technologies?.flatMap((technology) =>
+      technology.name ? [technology.name] : [],
+    ) ?? [];
+  const category = experiment.category
+    ? toCategory(experiment.category)
+    : inferLegacyCategory(
+        experiment.title,
+        experiment.summary,
+        technologyNames,
+      );
+
+  return [
+    {
+      id: experiment._id,
+      number: `LAB ${String(experiment.experimentNumber ?? experiment.displayOrder ?? index + 1).padStart(3, "0")}`,
+      title: experiment.title,
+      slug: experiment.slug,
+      summary: experiment.summary,
+      stack: technologyNames.join(" · ") || "Research in progress",
+      category,
+      categoryLabel: categoryLabels[category],
+      presentation: toPresentation(experiment.presentation),
+      year: getYear(experiment.completedAt || experiment.startedAt),
+      version: experiment.version || undefined,
+      status: experiment.status
+        ? (labStatusLabels[experiment.status] ?? experiment.status)
+        : undefined,
+      isActive:
+        experiment.status === "exploring" || experiment.status === "completed",
+      demoUrl: experiment.demoUrl || undefined,
+      sourceUrl: experiment.repositoryUrl || undefined,
+      coverImage: experiment.coverImage?.url
+        ? ({
+            ...experiment.coverImage,
+            blurDataUrl: experiment.coverImage.lqip || undefined,
+          } as ImageAsset)
+        : undefined,
+    },
+  ];
+}
+
+export async function getLabExperimentSlugs() {
+  const slugs = await sanityClient
+    .withConfig({ useCdn: false })
+    .fetch(
+      LAB_EXPERIMENT_SLUGS_QUERY,
+      {},
+      { perspective: "published", stega: false },
+    );
+  return slugs.flatMap(({ slug }) => (slug ? [{ slug }] : []));
+}
+
+export async function getLabExperiment(slug: string) {
+  const { data } = (await sanityFetch({
+    ...(await getContentFetchOptions()),
+    query: LAB_EXPERIMENT_QUERY,
+    params: { slug },
+  })) as { data: LAB_EXPERIMENT_QUERY_RESULT };
+  if (!data) return null;
+  const [experiment] = toLabExperiment(data);
+  return experiment ? { experiment, content: data } : null;
+}
+
 export async function getLabPage(): Promise<LabPageData> {
   const fetchOptions = await getContentFetchOptions();
   const { data } = (await sanityFetch({
     ...fetchOptions,
     query: LAB_PAGE_QUERY,
   })) as { data: LAB_PAGE_QUERY_RESULT };
-
-  const experiments = (data?.labExperiments ?? []).flatMap<LabExperimentModel>(
-    (experiment, index) => {
-      if (
-        !experiment._id ||
-        !experiment.title ||
-        !experiment.slug ||
-        !experiment.summary
-      )
-        return [];
-
-      const technologyNames =
-        experiment.technologies?.flatMap((technology) =>
-          technology.name ? [technology.name] : [],
-        ) ?? [];
-      const category = experiment.category
-        ? toCategory(experiment.category)
-        : inferLegacyCategory(
-            experiment.title,
-            experiment.summary,
-            technologyNames,
-          );
-
-      return [
-        {
-          id: experiment._id,
-          number: `LAB ${String(experiment.experimentNumber ?? experiment.displayOrder ?? index + 1).padStart(3, "0")}`,
-          title: experiment.title,
-          slug: experiment.slug,
-          summary: experiment.summary,
-          stack: technologyNames.join(" · ") || "Research in progress",
-          category,
-          categoryLabel: categoryLabels[category],
-          presentation: toPresentation(experiment.presentation),
-          year: getYear(experiment.completedAt || experiment.startedAt),
-          version: experiment.version || undefined,
-          status: experiment.status
-            ? (labStatusLabels[experiment.status] ?? experiment.status)
-            : undefined,
-          isActive:
-            experiment.status === "exploring" ||
-            experiment.status === "completed",
-          demoUrl: experiment.demoUrl || undefined,
-          sourceUrl: experiment.repositoryUrl || undefined,
-          coverImage: experiment.coverImage as ImageAsset | undefined,
-        },
-      ];
-    },
-  );
+  const experiments = (data?.labExperiments ?? []).flatMap(toLabExperiment);
 
   return {
     page: toPageModel(data?.labPage),

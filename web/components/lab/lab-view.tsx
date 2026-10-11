@@ -202,7 +202,7 @@ export function LabView({ experiments, page }: LabViewProps) {
                       </span>
                       <div>
                         <h3 className="text-base font-semibold tracking-[-0.01em] text-ink">
-                          {experiment.title}
+                          <Link href={`/lab/${experiment.slug}`} className="inline-flex min-h-11 items-center no-underline hover:text-accent-text">{experiment.title}</Link>
                         </h3>
                         <p className="mt-1 font-mono text-[0.6875rem] text-ink-muted">
                           {experiment.stack}
