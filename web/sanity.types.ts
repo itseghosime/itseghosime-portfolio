@@ -357,7 +357,13 @@ export type LabExperiment = {
   question?: string;
   status?: "planned" | "exploring" | "completed" | "paused" | "archived";
   version?: string;
-  category?: "interaction" | "uiForms" | "dataViz" | "threeDShaders" | "motion";
+  category?:
+    | "developerTools"
+    | "interaction"
+    | "uiForms"
+    | "dataViz"
+    | "threeDShaders"
+    | "motion";
   presentation?:
     | "none"
     | "spatialDepth"
@@ -2232,7 +2238,13 @@ export type LAB_PAGE_QUERY_RESULT = {
     displayOrder: number | null;
     experimentNumber: number | null;
     category:
-      "dataViz" | "interaction" | "motion" | "threeDShaders" | "uiForms" | null;
+      | "dataViz"
+      | "developerTools"
+      | "interaction"
+      | "motion"
+      | "threeDShaders"
+      | "uiForms"
+      | null;
     version: string | null;
     presentation:
       | "autonomousMicroForm"

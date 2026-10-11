@@ -40,6 +40,7 @@ const labStatusLabels: Record<string, string> = {
 };
 
 const categoryLabels: Record<Exclude<LabCategory, "all">, string> = {
+  developerTools: "Developer tools",
   interaction: "Interaction",
   uiForms: "UI & forms",
   dataViz: "Data & viz",

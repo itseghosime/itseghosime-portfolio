@@ -1,7 +1,7 @@
 import type { ImageAsset } from "./home";
 
 export type LabCategory =
-  "all" | "interaction" | "uiForms" | "dataViz" | "threeDShaders" | "motion";
+  "all" | "developerTools" | "interaction" | "uiForms" | "dataViz" | "threeDShaders" | "motion";
 
 export type LabPresentation =
   | "none"

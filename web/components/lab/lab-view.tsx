@@ -18,6 +18,7 @@ type LabViewProps = { experiments: LabExperimentModel[]; page: LabPageModel };
 
 const categoryLabels: Record<LabCategory, string> = {
   all: "All",
+  developerTools: "Developer tools",
   interaction: "Interaction",
   uiForms: "UI & forms",
   dataViz: "Data & viz",
@@ -44,6 +45,7 @@ export function LabView({ experiments, page }: LabViewProps) {
         }),
         {
           all: 0,
+          developerTools: 0,
           interaction: 0,
           uiForms: 0,
           dataViz: 0,
