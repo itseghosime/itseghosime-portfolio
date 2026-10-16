@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import {
   createPageMetadata,
   DEFAULT_SOCIAL_IMAGE,
+  OPEN_GRAPH_LOCALE,
   resolveSocialImage,
+  TWITTER_HANDLE,
 } from './seo'
 import { SITE_NAME } from './site'
 
@@ -71,6 +73,7 @@ describe('SEO metadata utilities', () => {
       type: 'website',
       title: 'About — ITSEGHOSIME',
       description: 'Test page description',
+      locale: OPEN_GRAPH_LOCALE,
       siteName: SITE_NAME,
       url: '/about',
       images: [
@@ -86,14 +89,27 @@ describe('SEO metadata utilities', () => {
     expect(metadata.robots).toEqual({
       follow: true,
       index: true,
-      googleBot: { follow: true, index: true },
+      googleBot: {
+        follow: true,
+        index: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     })
 
     expect(metadata.twitter).toEqual({
       card: 'summary_large_image',
+      creator: TWITTER_HANDLE,
       title: 'About — ITSEGHOSIME',
       description: 'Test page description',
-      images: [DEFAULT_SOCIAL_IMAGE.url],
+      images: [
+        {
+          alt: DEFAULT_SOCIAL_IMAGE.alt,
+          url: DEFAULT_SOCIAL_IMAGE.url,
+        },
+      ],
+      site: TWITTER_HANDLE,
     })
   })
 
@@ -108,7 +124,13 @@ describe('SEO metadata utilities', () => {
     expect(metadata.robots).toEqual({
       follow: false,
       index: false,
-      googleBot: { follow: false, index: false },
+      googleBot: {
+        follow: false,
+        index: false,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     })
   })
 })

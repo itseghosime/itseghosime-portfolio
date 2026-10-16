@@ -26,6 +26,9 @@ type PageMetadataInput = {
   title: string;
 };
 
+export const OPEN_GRAPH_LOCALE = "en_NG";
+export const TWITTER_HANDLE = "@itseghosime";
+
 export const DEFAULT_SOCIAL_IMAGE: ImageAsset = {
   alt: "ITSEGHOSIME — Frontend Developer and Software Engineer",
   height: 630,
@@ -86,6 +89,7 @@ export function createPageMetadata({
       type: "website",
       title,
       description,
+      locale: OPEN_GRAPH_LOCALE,
       images: [
         {
           alt: socialImage.alt,
@@ -100,13 +104,21 @@ export function createPageMetadata({
     robots: {
       follow: shouldIndex,
       index: shouldIndex,
-      googleBot: { follow: shouldIndex, index: shouldIndex },
+      googleBot: {
+        follow: shouldIndex,
+        index: shouldIndex,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
     twitter: {
       card: "summary_large_image",
+      creator: TWITTER_HANDLE,
       title,
       description,
-      images: [socialImage.url],
+      images: [{ alt: socialImage.alt, url: socialImage.url }],
+      site: TWITTER_HANDLE,
     },
   };
 }

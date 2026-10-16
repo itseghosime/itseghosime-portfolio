@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { draftMode } from "next/headers";
 import { Hanken_Grotesk, Newsreader } from "next/font/google";
 import { VisualEditing } from "next-sanity/visual-editing";
@@ -8,7 +8,11 @@ import { ConnectivityStatus } from "@/components/system/connectivity-status";
 import { DeferredSanityLive } from "@/components/system/deferred-sanity-live";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { SITE_URL } from "@/lib/site";
-import { resolveSocialImage } from "@/lib/seo";
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  OPEN_GRAPH_LOCALE,
+  TWITTER_HANDLE,
+} from "@/lib/seo";
 import { HOME_METADATA_QUERY } from "@/sanity/lib/queries";
 
 import "lenis/dist/lenis.css";
@@ -37,6 +41,11 @@ const newsreaderItalic = Newsreader({
   preload: false,
 });
 
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f5f4ef",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const { data } = await sanityFetch({
     perspective: "published",
@@ -51,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
     settings?.defaultSeo?.description ||
     settings?.siteDescription ||
     "The portfolio of Abdulrahman Itseghosime Bello, a frontend developer and software engineer building thoughtful digital experiences.";
-  const image = resolveSocialImage(settings?.defaultSeo?.image);
+  const image = DEFAULT_SOCIAL_IMAGE;
   const shouldIndex =
     settings?.indexing === "allow" && settings.defaultSeo?.noIndex !== true;
   const googleVerification =
@@ -60,15 +69,22 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(SITE_URL),
+    applicationName: "ITSEGHOSIME",
+    authors: [{ name: "Abdulrahman Itseghosime Bello", url: "/about" }],
+    creator: "Abdulrahman Itseghosime Bello",
+    publisher: "Abdulrahman Itseghosime Bello",
+    manifest: "/manifest.webmanifest",
     title: { default: title, template: "%s | ITSEGHOSIME" },
     description,
     alternates: {
+      canonical: "/",
       types: { "application/rss+xml": [{ title: "ITSEGHOSIME Notes", url: "/feed.xml" }] },
     },
     openGraph: {
       type: "website",
       title,
       description,
+      locale: OPEN_GRAPH_LOCALE,
       images: [{ alt: image.alt, height: image.height, url: image.url, width: image.width }],
       siteName: settings?.siteName || "ITSEGHOSIME",
       url: "/",
@@ -76,13 +92,21 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: {
       follow: shouldIndex,
       index: shouldIndex,
-      googleBot: { follow: shouldIndex, index: shouldIndex },
+      googleBot: {
+        follow: shouldIndex,
+        index: shouldIndex,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
     twitter: {
       card: "summary_large_image",
+      creator: TWITTER_HANDLE,
       title,
       description,
-      images: [image.url],
+      images: [{ alt: image.alt, url: image.url }],
+      site: TWITTER_HANDLE,
     },
     verification: googleVerification ? { google: googleVerification } : undefined,
   };

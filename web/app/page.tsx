@@ -14,7 +14,11 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { getHomePage } from "@/sanity/lib/home";
 import { sanityFetch } from "@/sanity/lib/live";
 import { HOME_METADATA_QUERY } from "@/sanity/lib/queries";
-import { resolveSocialImage } from "@/lib/seo";
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  OPEN_GRAPH_LOCALE,
+  TWITTER_HANDLE,
+} from "@/lib/seo";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 
 function safeUrl(value: string | null | undefined): URL | undefined {
@@ -47,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const metadataBase = safeUrl(settings?.canonicalUrl) ?? new URL(SITE_URL);
   const shouldIndex =
     settings?.indexing === "allow" && settings.defaultSeo?.noIndex !== true;
-  const socialImage = resolveSocialImage(settings?.defaultSeo?.image);
+  const socialImage = DEFAULT_SOCIAL_IMAGE;
 
   return {
     metadataBase,
@@ -58,6 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       title: title ?? undefined,
       description: description ?? undefined,
+      locale: OPEN_GRAPH_LOCALE,
       siteName: settings?.siteName ?? undefined,
       url: metadataBase,
       images: [
@@ -75,13 +80,18 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: {
         index: shouldIndex,
         follow: shouldIndex,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
       },
     },
     twitter: {
       card: "summary_large_image",
+      creator: TWITTER_HANDLE,
       title: title ?? undefined,
       description: description ?? undefined,
-      images: [socialImage.url],
+      images: [{ alt: socialImage.alt, url: socialImage.url }],
+      site: TWITTER_HANDLE,
     },
     verification: settings?.googleSiteVerification
       ? { google: settings.googleSiteVerification }
