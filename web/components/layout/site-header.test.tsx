@@ -46,18 +46,10 @@ describe('SiteHeader component', () => {
     expect(contactLink.getAttribute('href')).toBe('/contact')
   })
 
-  it('exposes the CV and professional phone number', () => {
+  it('keeps the primary header focused by omitting CV and phone utilities', () => {
     render(<SiteHeader navigation={navigation} siteName="ITSEGHOSIME" />)
 
-    expect(
-      screen.getAllByRole('link', { name: /CV|View CV/i }).some(
-        (link) => link.getAttribute('href') === '/cv',
-      ),
-    ).toBe(true)
-    expect(
-      screen.getAllByRole('link', { name: '+234 810 901 3969' }).every(
-        (link) => link.getAttribute('href') === 'tel:+2348109013969',
-      ),
-    ).toBe(true)
+    expect(screen.queryByRole('link', { name: /CV|View CV/i })).toBeNull()
+    expect(screen.queryByRole('link', { name: '+234 810 901 3969' })).toBeNull()
   })
 })

@@ -13,11 +13,11 @@ type WorkSectionProps = {
 function ProjectOutcome({ project }: { project: ProjectSummary }) {
   const title = project.title.toLowerCase().replaceAll(" ", "");
   const outcome = title.includes("creele")
-    ? "Deployed, handed over and still serving as the studio's live website."
+    ? "Adapted the supplied design across 3 device classes: mobile, tablet and desktop."
     : title.includes("rawlab")
-      ? "Published in HubSpot, handed over and supported with follow-up corrections."
+      ? "Published in HubSpot with 2 Jotform flows for contact and lead capture."
       : title.includes("skinnycan")
-        ? "Launched with the production domain and remains live today."
+        ? "The revised build generates 30 static pages and is covered by 34 passing automated tests."
         : undefined;
 
   if (!outcome) {
@@ -43,7 +43,7 @@ function ProjectLink({ project }: { project: ProjectSummary }) {
       className="group inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-accent no-underline"
       href={href}
     >
-      <span>View case study</span>
+      <span>View {project.title} case study</span>
       <ArrowUpRight
         aria-hidden="true"
         className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"

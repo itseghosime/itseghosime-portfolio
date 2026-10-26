@@ -70,23 +70,19 @@ describe('WorkArchive component', () => {
     expect(screen.queryByText('Kinetic Typography')).toBeNull()
   })
 
-  it('switches between Visual and Index views', async () => {
-    const user = userEvent.setup()
+  it('uses a labelled search field and does not expose redundant view controls', () => {
     render(<WorkArchive entries={sampleEntries} />)
 
-    const indexButtons = screen.getAllByRole('button', { name: /^index$/i })
-    await user.click(indexButtons[0])
-
-    // In Index view, case study links appear
-    const caseStudyLinks = screen.getAllByRole('link', { name: /Full case study/i })
-    expect(caseStudyLinks.length).toBeGreaterThan(0)
+    expect(screen.getByRole('searchbox', { name: /Search work/i })).toBeDefined()
+    expect(screen.queryByRole('button', { name: /^visual$/i })).toBeNull()
+    expect(screen.queryByRole('button', { name: /^index$/i })).toBeNull()
   })
 
   it('filters entries via search input and shows empty state when no match is found', async () => {
     const user = userEvent.setup()
     render(<WorkArchive entries={sampleEntries} />)
 
-    const searchInput = screen.getByPlaceholderText('Search work...')
+    const searchInput = screen.getByRole('searchbox', { name: /Search work/i })
     await user.type(searchInput, 'NonExistentTech')
 
     await waitFor(() => {

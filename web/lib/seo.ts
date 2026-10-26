@@ -32,7 +32,7 @@ export const TWITTER_HANDLE = "@itseghosime";
 export const DEFAULT_SOCIAL_IMAGE: ImageAsset = {
   alt: "ITSEGHOSIME — Abdulrahman Itseghosime Bello, Software Developer",
   height: 630,
-  url: absoluteUrl("/opengraph-image"),
+  url: absoluteUrl("/og-default.png"),
   width: 1200,
 };
 

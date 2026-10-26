@@ -8,11 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { NavigationItem } from "@/types/home";
 
 import { BrandMark } from "@/components/ui/brand-mark";
-import {
-  SITE_PHONE_DISPLAY,
-  SITE_PHONE_HREF,
-  SITE_WHATSAPP_URL,
-} from "@/lib/site";
+import { SITE_WHATSAPP_URL } from "@/lib/site";
 
 type MobileNavigationProps = {
   navigation: NavigationItem[];
@@ -262,10 +258,6 @@ export function MobileNavigation({
       >
         <p className="label-sm text-accent">Open to software roles.</p>
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-          <Link href="/cv" onClick={() => void closeMenu()}>
-            View CV
-          </Link>
-          <a href={SITE_PHONE_HREF}>{SITE_PHONE_DISPLAY}</a>
           <a href={SITE_WHATSAPP_URL} rel="noreferrer" target="_blank">
             WhatsApp
           </a>

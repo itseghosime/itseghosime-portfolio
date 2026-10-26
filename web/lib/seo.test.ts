@@ -56,7 +56,7 @@ describe('SEO metadata utilities', () => {
   it('returns DEFAULT_SOCIAL_IMAGE when neither primary nor default image has url', () => {
     const result = resolveSocialImage(null, null)
     expect(result).toEqual(DEFAULT_SOCIAL_IMAGE)
-    expect(result.url).toBe('https://www.itseghosime.com/opengraph-image')
+    expect(result.url).toBe('https://www.itseghosime.com/og-default.png')
   })
 
   it('creates complete page metadata with default indexing', () => {

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type {CapabilitySummary} from '@/types/home'
 
 import {Container} from '@/components/ui/container'
@@ -5,6 +7,12 @@ import {Container} from '@/components/ui/container'
 type CapabilitiesSectionProps = {
   capabilities: CapabilitySummary[];
 };
+
+const selectedClients = [
+  { href: "/work/skinny-cans", name: "Skinny Cans" },
+  { href: "/work/rawlab-ventures", name: "RawLab Ventures" },
+  { href: "/work/creele-studios", name: "Creele Studios" },
+];
 
 export function CapabilitiesSection({capabilities}: CapabilitiesSectionProps) {
   if (capabilities.length === 0) {
@@ -24,6 +32,22 @@ export function CapabilitiesSection({capabilities}: CapabilitiesSectionProps) {
             Building clear, maintainable interfaces with close attention to design, content and
             browser behavior.
           </p>
+          <div className="mt-4 border-t border-black/[0.08] pt-5">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
+              Selected clients
+            </p>
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+              {selectedClients.map((client) => (
+                <Link
+                  className="text-base font-semibold no-underline underline-offset-4 hover:text-accent hover:underline"
+                  href={client.href}
+                  key={client.href}
+                >
+                  {client.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         <ol className="m-0 list-none border-t border-black/[0.08] p-0 lg:col-span-8">

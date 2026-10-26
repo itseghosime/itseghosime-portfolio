@@ -25,6 +25,7 @@ export function SiteFooter({ footerText, siteName }: SiteFooterProps) {
             WhatsApp
           </a>
           <a href="/cv">CV</a>
+          <a href="/privacy">Privacy</a>
         </div>
         <p className="font-mono text-xs uppercase tracking-[0.06em] md:text-right">
           {footerText ?? "Built with intent · Accessible by default"}

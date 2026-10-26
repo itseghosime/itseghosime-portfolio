@@ -6,6 +6,7 @@ import { MediaSection } from "./media-section";
 import { NarrativeSection } from "./narrative-section";
 import { OutcomesSection } from "./outcomes-section";
 import { ProcessSection } from "./process-section";
+import { ProjectEvidence } from "./project-evidence";
 import { ProjectHero } from "./project-hero";
 import { sectionId } from "./project-subnav";
 import { SandboxSection } from "./sandbox-section";
@@ -41,6 +42,7 @@ export function ProjectPageBuilder({ project }: { project: ProjectPageData }) {
         project={project}
         section={hero?._type === "heroSection" ? hero : undefined}
       />
+      <ProjectEvidence project={project} />
       {sections.map((section, index) => {
         if (section._type === "heroSection") return null;
         return (

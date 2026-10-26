@@ -17,6 +17,7 @@ const staticRoutes = [
   "/notes",
   "/contact",
   "/cv",
+  "/privacy",
 ];
 
 export const revalidate = 600;

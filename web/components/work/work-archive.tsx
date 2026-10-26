@@ -5,7 +5,7 @@ import { ArrowRight, FilterX } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import type { ArchiveEntry, ArchiveFilter, ArchiveView } from "@/types/work";
+import type { ArchiveEntry, ArchiveFilter } from "@/types/work";
 
 import { Container } from "@/components/ui/container";
 
@@ -97,7 +97,7 @@ function IndexCollection({ entries }: { entries: ArchiveEntry[] }) {
               className="inline-flex min-h-10 items-center gap-2 border border-black/15 px-3 py-2 text-xs font-semibold no-underline transition-colors hover:border-ink hover:bg-ink hover:text-background"
               href={entry.href}
             >
-              Full case study
+              View {entry.title} case study
               <ArrowRight aria-hidden="true" size={14} strokeWidth={1.8} />
             </Link>
           ) : (
@@ -130,8 +130,6 @@ export function WorkArchive({
     return initialFilter;
   });
   const [query, setQuery] = useState("");
-  const [viewOverride, setViewOverride] = useState<ArchiveView | null>(null);
-  const view: ArchiveView = viewOverride ?? "visual";
   const archiveRef = useRef<HTMLDivElement>(null);
 
   const counts = useMemo(
@@ -170,86 +168,6 @@ export function WorkArchive({
       );
     });
   }, [entries, filter, query]);
-
-  useEffect(() => {
-    const root = archiveRef.current;
-    if (!root) {
-      return;
-    }
-
-    const items = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-archive-entry]"),
-    );
-    const shouldReduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    if (shouldReduceMotion) {
-      gsap.set(items, { clearProps: "all" });
-      return;
-    }
-
-    gsap.set(items, { opacity: 0, y: 44 });
-    items.forEach((item) => {
-      const media = item.querySelector<HTMLElement>("[data-archive-media]");
-      if (media) {
-        gsap.set(media, { clipPath: "inset(0 0 18% 0)", scale: 0.985 });
-      }
-    });
-    const observer = new IntersectionObserver(
-      (observations) => {
-        observations.forEach((observation) => {
-          if (!observation.isIntersecting) {
-            return;
-          }
-
-          const item = observation.target as HTMLElement;
-          const media = item.querySelector<HTMLElement>("[data-archive-media]");
-          const copy = item.querySelectorAll<HTMLElement>("h2, p, a");
-          const timeline = gsap.timeline();
-
-          timeline
-            .to(item, {
-              duration: 0.85,
-              ease: "power3.out",
-              opacity: 1,
-              overwrite: true,
-              y: 0,
-            })
-            .fromTo(
-              copy,
-              { opacity: 0, y: 12 },
-              {
-                duration: 0.55,
-                ease: "power2.out",
-                opacity: 1,
-                stagger: 0.035,
-                y: 0,
-              },
-              "-=0.52",
-            );
-
-          if (media) {
-            timeline.to(
-              media,
-              {
-                clipPath: "inset(0 0 0% 0)",
-                duration: 1.05,
-                ease: "power4.out",
-                scale: 1,
-              },
-              "-=0.72",
-            );
-          }
-          observer.unobserve(observation.target);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
-    );
-
-    items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
-  }, [filter, query, view, visibleEntries.length]);
 
   useEffect(() => {
     const root = archiveRef.current;
@@ -319,7 +237,7 @@ export function WorkArchive({
     });
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [filter, query, view, visibleEntries.length]);
+  }, [filter, query, visibleEntries.length]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -504,8 +422,11 @@ export function WorkArchive({
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <label className="relative block">
-                <span className="sr-only">Search archive</span>
+              <label className="grid gap-2">
+                <span className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
+                  Search work
+                </span>
+                <span className="relative block">
                 <span
                   className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
                   aria-hidden="true"
@@ -519,51 +440,8 @@ export function WorkArchive({
                   type="search"
                   value={query}
                 />
+                </span>
               </label>
-
-              <div
-                className="hidden border border-black/10 md:flex"
-                aria-label="Archive view"
-                role="group"
-              >
-                {(["visual", "index"] as const).map((item) => (
-                  <button
-                    className={`min-h-10 cursor-pointer px-3 text-xs capitalize transition-colors ${
-                      (viewOverride ?? "visual") === item
-                        ? "bg-ink text-background"
-                        : "bg-surface text-ink-muted hover:text-ink"
-                    }`}
-                    aria-pressed={(viewOverride ?? "visual") === item}
-                    key={item}
-                    onClick={() => setViewOverride(item)}
-                    type="button"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-
-              <div
-                className="grid grid-cols-2 border border-black/10 md:hidden"
-                aria-label="Archive view"
-                role="group"
-              >
-                {(["visual", "index"] as const).map((item) => (
-                  <button
-                    className={`min-h-10 cursor-pointer px-3 text-xs capitalize transition-colors ${
-                      (viewOverride ?? "index") === item
-                        ? "bg-ink text-background"
-                        : "bg-surface text-ink-muted hover:text-ink"
-                    }`}
-                    aria-pressed={(viewOverride ?? "index") === item}
-                    key={item}
-                    onClick={() => setViewOverride(item)}
-                    type="button"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         </Container>
@@ -576,22 +454,14 @@ export function WorkArchive({
       >
         <Container>
           {visibleEntries.length > 0 ? (
-            viewOverride ? (
-              viewOverride === "visual" ? (
+            <>
+              <div className="hidden md:block">
                 <VisualCollection entries={visibleEntries} />
-              ) : (
+              </div>
+              <div className="md:hidden">
                 <IndexCollection entries={visibleEntries} />
-              )
-            ) : (
-              <>
-                <div className="hidden md:block">
-                  <VisualCollection entries={visibleEntries} />
-                </div>
-                <div className="md:hidden">
-                  <IndexCollection entries={visibleEntries} />
-                </div>
-              </>
-            )
+              </div>
+            </>
           ) : (
             <div className="grid min-h-80 place-content-center border-y border-black/10 px-6 text-center">
               <span className="mx-auto grid size-12 place-items-center rounded-full bg-surface-container text-ink-muted">

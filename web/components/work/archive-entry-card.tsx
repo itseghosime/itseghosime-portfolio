@@ -49,7 +49,7 @@ function EntryLinks({ entry }: { entry: ArchiveEntry }) {
           className="group/case-study inline-flex min-h-11 items-center gap-3 border border-ink bg-ink px-4 py-2 text-background no-underline transition-colors hover:border-accent hover:bg-accent"
           href={entry.href}
         >
-          View full case study
+          View {entry.title} case study
           <ArrowRight
             aria-hidden="true"
             className="transition-transform duration-200 group-hover/case-study:translate-x-1 motion-reduce:transition-none"
