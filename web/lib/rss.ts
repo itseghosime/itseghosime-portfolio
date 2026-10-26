@@ -46,7 +46,7 @@ export function createNotesRss(notes: RssNote[]): string {
   <channel>
     <title>${SITE_NAME} — Technical Notes</title>
     <link>${absoluteUrl("/notes")}</link>
-    <description>Practical notes on frontend engineering, interface architecture, accessibility and performance.</description>
+    <description>Practical notes on software development, frontend engineering, interface architecture, accessibility and performance.</description>
     <language>en</language>
     <atom:link href="${absoluteUrl("/feed.xml")}" rel="self" type="application/rss+xml" />
     ${latestDate ? `<lastBuildDate>${latestDate.toUTCString()}</lastBuildDate>` : ""}${items}

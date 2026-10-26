@@ -30,11 +30,24 @@ export const OPEN_GRAPH_LOCALE = "en_NG";
 export const TWITTER_HANDLE = "@itseghosime";
 
 export const DEFAULT_SOCIAL_IMAGE: ImageAsset = {
-  alt: "ITSEGHOSIME — Frontend Developer and Software Engineer",
+  alt: "ITSEGHOSIME — Abdulrahman Itseghosime Bello, Software Developer",
   height: 630,
   url: absoluteUrl("/opengraph-image"),
   width: 1200,
 };
+
+export function formatPageTitle(title: string): string {
+  let baseTitle = title.trim();
+  const siteSuffix = /\s*(?:\||—|-)\s*ITSEGHOSIME\s*$/i;
+
+  while (siteSuffix.test(baseTitle)) {
+    baseTitle = baseTitle.replace(siteSuffix, "").trim();
+  }
+
+  return baseTitle.toUpperCase() === SITE_NAME
+    ? SITE_NAME
+    : `${baseTitle} — ${SITE_NAME}`;
+}
 
 export function resolveSocialImage(
   image?: SocialImageLike | null,
@@ -80,14 +93,15 @@ export function createPageMetadata({
 }: PageMetadataInput): Metadata {
   const socialImage = resolveSocialImage(image, defaultImage);
   const shouldIndex = !noIndex;
+  const pageTitle = formatPageTitle(title);
 
   return {
-    title,
+    title: { absolute: pageTitle },
     description,
     alternates: { canonical: path },
     openGraph: {
       type: "website",
-      title,
+      title: pageTitle,
       description,
       locale: OPEN_GRAPH_LOCALE,
       images: [
@@ -115,7 +129,7 @@ export function createPageMetadata({
     twitter: {
       card: "summary_large_image",
       creator: TWITTER_HANDLE,
-      title,
+      title: pageTitle,
       description,
       images: [{ alt: socialImage.alt, url: socialImage.url }],
       site: TWITTER_HANDLE,

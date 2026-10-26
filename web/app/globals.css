@@ -252,6 +252,54 @@ p {
   text-transform: uppercase;
 }
 
+/* Keep supporting interface copy readable without changing its visual hierarchy. */
+[class~="text-[0.5625rem]"],
+[class~="text-[0.625rem]"],
+[class~="text-[0.6875rem]"] {
+  font-size: 0.75rem;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  [data-site-header],
+  [data-site-footer],
+  .cv-actions,
+  .connectivity-status {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+    color: #161719;
+    font-size: 11pt;
+  }
+
+  .cv-document > div {
+    padding: 0 !important;
+  }
+
+  .cv-document article {
+    max-width: none;
+    gap: 1.75rem;
+    padding: 0;
+    background: #ffffff;
+    box-shadow: none;
+  }
+
+  .cv-document a {
+    text-decoration: none;
+  }
+
+  .cv-page-break {
+    break-before: page;
+    padding-top: 0.2rem;
+  }
+}
+
 .note-reading-body > p:first-child::first-letter {
   float: left;
   margin: 0.08em 0.18em 0.06em 0;

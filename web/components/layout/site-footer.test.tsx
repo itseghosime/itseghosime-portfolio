@@ -21,4 +21,13 @@ describe('SiteFooter component', () => {
     render(<SiteFooter footerText="Custom Crafted Engineering" siteName="ITSEGHOSIME" />)
     expect(screen.getByText('Custom Crafted Engineering')).toBeDefined()
   })
+
+  it('shows professional contact and CV links', () => {
+    render(<SiteFooter siteName="ITSEGHOSIME" />)
+
+    expect(screen.getByRole('link', { name: 'hello@itseghosime.com' })).toBeDefined()
+    expect(screen.getByRole('link', { name: '+234 810 901 3969' })).toBeDefined()
+    expect(screen.getByRole('link', { name: 'WhatsApp' })).toBeDefined()
+    expect(screen.getByRole('link', { name: 'CV' })).toBeDefined()
+  })
 })

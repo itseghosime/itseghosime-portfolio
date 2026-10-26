@@ -182,7 +182,7 @@ export function buildContactEmailBatch(
             <p style="margin:28px 0 0;color:#6c727a;font-size:13px;line-height:1.65;">
               Best,<br />
               <strong style="color:#161719;">Abdulrahman Itseghosime Bello</strong><br />
-              Frontend Developer &amp; Software Engineer
+              Software Developer
             </p>
           </td>
         </tr>
@@ -202,7 +202,7 @@ export function buildContactEmailBatch(
       '',
       'Best,',
       'Abdulrahman Itseghosime Bello',
-      'Frontend Developer & Software Engineer',
+      'Software Developer',
     ].join('\n'),
     to: [email],
   }

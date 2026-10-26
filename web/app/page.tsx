@@ -19,7 +19,11 @@ import {
   OPEN_GRAPH_LOCALE,
   TWITTER_HANDLE,
 } from "@/lib/seo";
-import { absoluteUrl, SITE_URL } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
+import {
+  createPersonStructuredData,
+  PROFESSIONAL_IDENTITY,
+} from "@/lib/professional-identity";
 
 function safeUrl(value: string | null | undefined): URL | undefined {
   if (!value) {
@@ -40,14 +44,9 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
 
-  const { profile, settings } = data;
-  const title =
-    settings?.defaultSeo?.title ??
-    (profile?.professionalTitle && settings?.siteName
-      ? `${settings.siteName} | ${profile.professionalTitle}`
-      : settings?.siteName);
-  const description =
-    settings?.defaultSeo?.description ?? settings?.siteDescription;
+  const { settings } = data;
+  const title = `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`;
+  const description = PROFESSIONAL_IDENTITY.description;
   const metadataBase = safeUrl(settings?.canonicalUrl) ?? new URL(SITE_URL);
   const shouldIndex =
     settings?.indexing === "allow" && settings.defaultSeo?.noIndex !== true;
@@ -113,28 +112,22 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@id": personId,
-        "@type": "Person",
-        name: page.hero.name,
-        jobTitle: page.hero.professionalTitle,
-        description: page.hero.introduction,
-        homeLocation: page.hero.location
-          ? {
-              "@type": "Place",
-              name: page.hero.location,
-            }
-          : undefined,
-        image: page.hero.portrait?.url,
-        knowsAbout: page.technologies.map((technology) => technology.name),
-        sameAs: page.contact.socialLinks.map((link) => link.url),
-        url: absoluteUrl("/about"),
+        ...createPersonStructuredData({
+          image: page.hero.portrait?.url,
+          knowsAbout: page.technologies.map((technology) => technology.name),
+          sameAs: page.contact.socialLinks.map((link) => link.url),
+        }),
       },
       {
         "@id": websiteId,
         "@type": "WebSite",
         name: page.siteName,
-        description: page.hero.introduction,
+        alternateName: ["ITSEGHOSIME Portfolio", PROFESSIONAL_IDENTITY.fullName],
+        description: PROFESSIONAL_IDENTITY.description,
         inLanguage: "en",
+        about: {
+          "@id": personId,
+        },
         publisher: {
           "@id": personId,
         },
@@ -143,12 +136,15 @@ export default async function Home() {
       {
         "@id": profilePageId,
         "@type": "ProfilePage",
-        name: `${page.hero.name} — ${page.hero.professionalTitle}`,
-        description: page.hero.introduction,
+        name: `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`,
+        description: PROFESSIONAL_IDENTITY.description,
         isPartOf: {
           "@id": websiteId,
         },
         mainEntity: {
+          "@id": personId,
+        },
+        about: {
           "@id": personId,
         },
         url: SITE_URL,

@@ -22,10 +22,11 @@ export function TechnologiesSection({
       <Container>
         <div className="grid gap-6">
           <h2 className="label-sm text-ink-muted" id="technologies-title">
-            Core technical foundry
+            Core stack
           </h2>
-          <p className="font-serif text-2xl leading-relaxed tracking-tight text-ink md:text-4xl">
-            {technologies.map((technology) => technology.name).join(" · ")}
+          <p className="max-w-4xl font-serif text-2xl leading-relaxed tracking-tight text-ink md:text-4xl">
+            I ship responsive Next.js and TypeScript products, including
+            multilingual sites with Sanity and Tailwind CSS.
           </p>
         </div>
       </Container>

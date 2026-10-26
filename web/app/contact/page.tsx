@@ -7,7 +7,12 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { getHomePage } from "@/sanity/lib/home";
 import { getStaticPageSeo } from "@/sanity/lib/seo";
 import { createPageMetadata } from "@/lib/seo";
-import { absoluteUrl, SITE_URL } from "@/lib/site";
+import {
+  absoluteUrl,
+  SITE_PHONE_E164,
+  SITE_URL,
+  SITE_WHATSAPP_URL,
+} from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getStaticPageSeo();
@@ -48,9 +53,11 @@ export default async function ContactPage() {
       email: `mailto:${page.contact.email}`,
       jobTitle: page.hero.professionalTitle,
       name: page.hero.name,
+      telephone: SITE_PHONE_E164,
       sameAs: page.contact.socialLinks.map((link) => link.url),
       url: SITE_URL,
     },
+    significantLink: SITE_WHATSAPP_URL,
     url: contactUrl,
   };
 

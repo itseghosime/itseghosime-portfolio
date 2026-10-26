@@ -3,6 +3,11 @@ import {ArrowUpRight} from "lucide-react";
 
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
+import {
+  SITE_PHONE_DISPLAY,
+  SITE_PHONE_HREF,
+  SITE_WHATSAPP_URL,
+} from "@/lib/site";
 
 import { CopyEmail } from "./copy-email";
 
@@ -35,6 +40,23 @@ export function ContactSection({ contact }: ContactSectionProps) {
             {contact.buttonLabel}
             <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.8} />
           </ButtonLink>
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-ink-muted">
+          <a className="hover:text-ink" href={SITE_PHONE_HREF}>
+            {SITE_PHONE_DISPLAY}
+          </a>
+          <a
+            className="hover:text-ink"
+            href={SITE_WHATSAPP_URL}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Chat on WhatsApp
+          </a>
+          <a className="hover:text-ink" href="/cv">
+            View CV
+          </a>
         </div>
 
         {contact.socialLinks.length > 0 ? (

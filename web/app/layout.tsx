@@ -13,6 +13,7 @@ import {
   OPEN_GRAPH_LOCALE,
   TWITTER_HANDLE,
 } from "@/lib/seo";
+import { PROFESSIONAL_IDENTITY } from "@/lib/professional-identity";
 import { HOME_METADATA_QUERY } from "@/sanity/lib/queries";
 
 import "lenis/dist/lenis.css";
@@ -53,13 +54,8 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
   const { settings } = data;
-  const title =
-    settings?.defaultSeo?.title ||
-    "ITSEGHOSIME | Frontend Developer Portfolio";
-  const description =
-    settings?.defaultSeo?.description ||
-    settings?.siteDescription ||
-    "The portfolio of Abdulrahman Itseghosime Bello, a frontend developer and software engineer building thoughtful digital experiences.";
+  const title = `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`;
+  const description = PROFESSIONAL_IDENTITY.description;
   const image = DEFAULT_SOCIAL_IMAGE;
   const shouldIndex =
     settings?.indexing === "allow" && settings.defaultSeo?.noIndex !== true;

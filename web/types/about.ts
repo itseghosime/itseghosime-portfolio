@@ -35,6 +35,11 @@ export type AboutAction = {
 }
 
 export type AboutProfileModel = {
+  achievements: {
+    heading: string
+    label: string
+    milestones: AboutMilestone[]
+  }
   cta: {
     eyebrow: string
     heading: string

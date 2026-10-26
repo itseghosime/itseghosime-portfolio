@@ -5,12 +5,18 @@ import type {AboutMilestone} from "@/types/about";
 import {Container} from "@/components/ui/container";
 
 type MilestoneSectionProps = {
+  countLabel?: string;
   eyebrow: string;
   milestones: AboutMilestone[];
   title: string;
 };
 
-export function MilestoneSection({eyebrow, milestones, title}: MilestoneSectionProps) {
+export function MilestoneSection({
+  countLabel = "roles",
+  eyebrow,
+  milestones,
+  title,
+}: MilestoneSectionProps) {
   if (milestones.length === 0) {
     return null;
   }
@@ -29,7 +35,7 @@ export function MilestoneSection({eyebrow, milestones, title}: MilestoneSectionP
               </h2>
             </div>
             <span className="hidden font-mono text-xs text-ink-muted sm:inline">
-              [{String(milestones.length).padStart(2, "0")} ROLES]
+              [{String(milestones.length).padStart(2, "0")} {countLabel.toUpperCase()}]
             </span>
           </div>
 

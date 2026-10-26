@@ -9,6 +9,10 @@ import { getHomePage } from "@/sanity/lib/home";
 import { getStaticPageSeo } from "@/sanity/lib/seo";
 import { createPageMetadata } from "@/lib/seo";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
+import {
+  createPersonStructuredData,
+  PROFESSIONAL_IDENTITY,
+} from "@/lib/professional-identity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getStaticPageSeo();
@@ -18,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     defaultImage: data.settings?.defaultSeo?.image,
     description:
       seo?.description ||
-      "Background, experience, working principles and professional focus of Abdulrahman Itseghosime Bello.",
+      "Meet Abdulrahman Itseghosime Bello, a software developer in Abuja, Nigeria. Explore his experience, projects, education, skills and EdoBits award.",
     image: seo?.image,
     noIndex: data.settings?.indexing !== "allow" || seo?.noIndex === true,
     path: "/about",
@@ -37,22 +41,18 @@ export default async function AboutPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@id": `${SITE_URL}/#person`,
-        "@type": "Person",
-        name: dossier.story.fullName,
-        jobTitle: page.hero.professionalTitle,
-        description: page.hero.introduction,
-        address: dossier.hero.location
-          ? { "@type": "PostalAddress", addressLocality: dossier.hero.location }
-          : undefined,
-        knowsAbout: page.technologies.map((technology) => technology.name),
-        sameAs: page.contact.socialLinks.map((link) => link.url),
-        url: profileUrl,
+        ...createPersonStructuredData({
+          image: dossier.story.portrait?.url,
+          knowsAbout: page.technologies.map((technology) => technology.name),
+          sameAs: page.contact.socialLinks.map((link) => link.url),
+        }),
       },
       {
         "@id": profileUrl,
         "@type": "ProfilePage",
-        name: `About ${dossier.story.fullName}`,
+        name: `About ${PROFESSIONAL_IDENTITY.fullName}`,
+        description: PROFESSIONAL_IDENTITY.description,
+        about: { "@id": `${SITE_URL}/#person` },
         mainEntity: { "@id": `${SITE_URL}/#person` },
         url: profileUrl,
       },

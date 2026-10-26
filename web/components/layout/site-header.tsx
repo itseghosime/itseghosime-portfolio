@@ -5,6 +5,7 @@ import type { NavigationItem } from "@/types/home";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_HREF } from "@/lib/site";
 
 import { MobileNavigation } from "./mobile-navigation";
 
@@ -59,6 +60,18 @@ export function SiteHeader({
         </nav>
 
         <div className="flex items-center gap-3">
+          <a
+            className="hidden min-h-11 items-center text-xs font-semibold tracking-[0.02em] text-ink-muted no-underline transition-colors hover:text-ink xl:inline-flex"
+            href={SITE_PHONE_HREF}
+          >
+            {SITE_PHONE_DISPLAY}
+          </a>
+          <Link
+            className="hidden min-h-11 items-center text-sm font-semibold no-underline transition-colors hover:text-accent lg:inline-flex"
+            href="/cv"
+          >
+            CV
+          </Link>
           <div className="hidden lg:block">
             <ButtonLink href={contactHref}>Get in touch</ButtonLink>
           </div>

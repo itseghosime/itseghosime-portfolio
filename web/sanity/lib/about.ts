@@ -175,6 +175,11 @@ export async function getAboutProfile(): Promise<AboutProfileModel | null> {
   }
 
   return {
+    achievements: {
+      heading: aboutPage.achievementsHeading || 'Recognition earned through the work.',
+      label: aboutPage.achievementsLabel || 'Achievements / Recognition',
+      milestones: toMilestones(aboutPage.achievementMilestones),
+    },
     cta: {
       eyebrow: aboutPage.ctaEyebrow,
       heading: aboutPage.ctaHeading,

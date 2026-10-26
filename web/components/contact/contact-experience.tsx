@@ -15,6 +15,11 @@ import { useEffect, useRef, useState } from "react";
 import type { HomePageModel } from "@/types/home";
 
 import { Container } from "@/components/ui/container";
+import {
+  SITE_PHONE_DISPLAY,
+  SITE_PHONE_HREF,
+  SITE_WHATSAPP_URL,
+} from "@/lib/site";
 
 import { ContactForm } from "./contact-form";
 import { RecruiterBriefDrawer } from "./recruiter-brief-drawer";
@@ -164,6 +169,23 @@ export function ContactExperience({
             </div>
           </div>
 
+          <div className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-ink-muted" data-contact-intro>
+            <a className="hover:text-ink" href={SITE_PHONE_HREF}>
+              {SITE_PHONE_DISPLAY}
+            </a>
+            <a
+              className="hover:text-ink"
+              href={SITE_WHATSAPP_URL}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Chat on WhatsApp
+            </a>
+            <a className="hover:text-ink" href="/cv">
+              View and download CV
+            </a>
+          </div>
+
           <button
             className="group flex min-h-12 cursor-pointer items-center justify-between gap-5 border-y border-black/[0.08] bg-transparent px-1 py-3 text-left text-sm transition-colors hover:text-accent"
             type="button"
@@ -179,8 +201,8 @@ export function ContactExperience({
               />
               Hiring or evaluating quickly? Open the recruiter web summary.
             </span>
-            <span
-              className="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-muted transition-transform group-hover:translate-x-1"
+              <span
+              className="font-mono text-xs uppercase tracking-[0.1em] text-ink-muted transition-transform group-hover:translate-x-1"
               aria-hidden="true"
             >
               <span className="inline-flex items-center gap-2">
@@ -255,7 +277,7 @@ export function ContactExperience({
                       Current professional snapshot
                     </p>
                   </div>
-                  <span className="bg-accent-soft px-2 py-1 font-mono text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-accent">
+                  <span className="bg-accent-soft px-2 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-accent">
                     Updated
                   </span>
                 </div>

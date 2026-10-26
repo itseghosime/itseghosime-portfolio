@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const alt =
-  "ITSEGHOSIME — Frontend Developer and Software Engineer portfolio";
+  "ITSEGHOSIME — Abdulrahman Itseghosime Bello, Software Developer";
 export const size = { height: 630, width: 1200 };
 export const contentType = "image/png";
 

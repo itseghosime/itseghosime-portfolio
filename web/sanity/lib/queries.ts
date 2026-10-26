@@ -231,6 +231,21 @@ export const ABOUT_PROFILE_QUERY = defineQuery(`{
       credentialTitle,
       credentialUrl
     },
+    achievementsHeading,
+    achievementsLabel,
+    achievementMilestones[]->{
+      _id,
+      title,
+      milestoneType,
+      organisation,
+      location,
+      status,
+      startDate,
+      endDate,
+      expectedEndDate,
+      summary,
+      highlights
+    },
     principlesHeading,
     principlesLabel,
     ctaEyebrow,

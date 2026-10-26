@@ -10,6 +10,27 @@ type WorkSectionProps = {
   projects: ProjectSummary[];
 };
 
+function ProjectOutcome({ project }: { project: ProjectSummary }) {
+  const title = project.title.toLowerCase().replaceAll(" ", "");
+  const outcome = title.includes("creele")
+    ? "Deployed, handed over and still serving as the studio's live website."
+    : title.includes("rawlab")
+      ? "Published in HubSpot, handed over and supported with follow-up corrections."
+      : title.includes("skinnycan")
+        ? "Launched with the production domain and remains live today."
+        : undefined;
+
+  if (!outcome) {
+    return null;
+  }
+
+  return (
+    <p className="border-l-2 border-accent/35 pl-4 text-sm leading-6 text-ink-muted">
+      <span className="font-semibold text-ink">Outcome:</span> {outcome}
+    </p>
+  );
+}
+
 function ProjectLink({ project }: { project: ProjectSummary }) {
   const href = `/work/${project.slug}`;
 
@@ -98,10 +119,13 @@ function PrimaryProject({
           <ProjectImage image={project.coverImage} />
         </div>
         <div className="grid gap-6 border-t border-black/8 bg-surface/80 p-6 backdrop-blur md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-10">
-          <p className="max-w-3xl text-base leading-[1.65] text-ink-soft">
-            {project.summary}
-          </p>
-          <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-ink-muted">
+          <div className="grid max-w-3xl gap-4">
+            <p className="text-base leading-[1.65] text-ink-soft">
+              {project.summary}
+            </p>
+            <ProjectOutcome project={project} />
+          </div>
+          <p className="font-mono text-xs uppercase tracking-[0.08em] text-ink-muted">
             {project.timeline ?? project.year} / {project.role}
           </p>
         </div>
@@ -125,11 +149,12 @@ function SplitProject({
           <div className="grid gap-4 rounded-lg border border-black/8 bg-surface-container p-6">
             <h3 className="text-lg font-semibold">Contribution</h3>
             <p className="leading-[1.65] text-ink-soft">{project.summary}</p>
+            <ProjectOutcome project={project} />
             {project.technologies.length > 0 ? (
               <div className="flex flex-wrap gap-2 pt-2">
                 {project.technologies.map((technology) => (
                   <span
-                    className="rounded border border-black/8 bg-surface px-2 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.05em] text-ink-muted"
+                    className="rounded border border-black/8 bg-surface px-2 py-1 font-mono text-xs uppercase tracking-[0.05em] text-ink-muted"
                     key={technology}
                   >
                     {technology}
@@ -180,6 +205,7 @@ function LayeredProject({
           </div>
         </div>
       </div>
+      <ProjectOutcome project={project} />
     </article>
   );
 }

@@ -68,9 +68,9 @@ export function HeroSection() {
           </h1>
 
           <div className="grid gap-1" data-hero-reveal>
-            <p className="headline-sm">Osi — Frontend Engineer</p>
+            <p className="headline-sm">Osi — Software Developer</p>
             <p className="text-[0.8125rem] leading-6 text-ink-muted">
-              React · Next.js · TypeScript · Creative Engineering
+              Abdulrahman Itseghosime Bello · Abuja, Nigeria
             </p>
           </div>
 

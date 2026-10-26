@@ -50,6 +50,12 @@ export function AboutProfile({ dossier, page }: AboutProfileProps) {
           learning={dossier.development.learning}
           learningHeading={dossier.development.learningHeading}
         />
+        <MilestoneSection
+          countLabel="awards"
+          eyebrow={dossier.achievements.label}
+          milestones={dossier.achievements.milestones}
+          title={dossier.achievements.heading}
+        />
         <PrinciplesSection
           contact={page.contact}
           cta={dossier.cta}

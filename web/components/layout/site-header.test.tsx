@@ -45,4 +45,19 @@ describe('SiteHeader component', () => {
     const contactLink = screen.getByRole('link', { name: /Get in touch/i })
     expect(contactLink.getAttribute('href')).toBe('/contact')
   })
+
+  it('exposes the CV and professional phone number', () => {
+    render(<SiteHeader navigation={navigation} siteName="ITSEGHOSIME" />)
+
+    expect(
+      screen.getAllByRole('link', { name: /CV|View CV/i }).some(
+        (link) => link.getAttribute('href') === '/cv',
+      ),
+    ).toBe(true)
+    expect(
+      screen.getAllByRole('link', { name: '+234 810 901 3969' }).every(
+        (link) => link.getAttribute('href') === 'tel:+2348109013969',
+      ),
+    ).toBe(true)
+  })
 })

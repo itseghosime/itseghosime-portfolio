@@ -12,6 +12,7 @@ import type {
 import {sanityFetch} from './live'
 import {getContentFetchOptions} from './fetch-options'
 import {HOME_PAGE_QUERY} from './queries'
+import {SITE_EMAIL} from '@/lib/site'
 
 type SanityImage = NonNullable<
   NonNullable<HOME_PAGE_QUERY_RESULT['profile']>['portrait']
@@ -267,7 +268,7 @@ export async function getHomePage(): Promise<HomePageModel | null> {
       })) ?? [],
     contact: {
       buttonLabel: settings.contactButtonLabel,
-      email: profile.email,
+      email: SITE_EMAIL,
       heading: settings.contactHeading,
       message: settings.contactMessage,
       resume: profile.resume?.url

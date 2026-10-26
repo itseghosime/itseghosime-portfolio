@@ -9,7 +9,15 @@ type SitemapDocument = {
   path: string;
 };
 
-const staticRoutes = ["/", "/about", "/work", "/lab", "/notes", "/contact"];
+const staticRoutes = [
+  "/",
+  "/about",
+  "/work",
+  "/lab",
+  "/notes",
+  "/contact",
+  "/cv",
+];
 
 export const revalidate = 600;
 

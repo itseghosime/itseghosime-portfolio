@@ -239,6 +239,39 @@ export const aboutPage = defineType({
       validation: (rule) => rule.max(8).unique(),
     }),
     defineField({
+      name: 'achievementsHeading',
+      title: 'Achievements heading',
+      description: 'Optional heading for public awards and recognitions.',
+      type: 'string',
+      group: 'journey',
+      validation: (rule) => rule.max(70),
+    }),
+    defineField({
+      name: 'achievementsLabel',
+      title: 'Achievements side label',
+      type: 'string',
+      group: 'journey',
+      validation: (rule) => rule.max(60),
+    }),
+    defineField({
+      name: 'achievementMilestones',
+      title: 'Selected achievements',
+      description:
+        'Choose published career milestones whose milestone type is Award or recognition.',
+      type: 'array',
+      group: 'journey',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'careerMilestone'}],
+          options: {
+            filter: 'milestoneType == "award"',
+          },
+        }),
+      ],
+      validation: (rule) => rule.max(6).unique(),
+    }),
+    defineField({
       name: 'principlesHeading',
       title: 'Principles heading',
       type: 'string',

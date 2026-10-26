@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   createPageMetadata,
   DEFAULT_SOCIAL_IMAGE,
+  formatPageTitle,
   OPEN_GRAPH_LOCALE,
   resolveSocialImage,
   TWITTER_HANDLE,
@@ -65,7 +66,7 @@ describe('SEO metadata utilities', () => {
       title: 'About — ITSEGHOSIME',
     })
 
-    expect(metadata.title).toBe('About — ITSEGHOSIME')
+    expect(metadata.title).toEqual({ absolute: 'About — ITSEGHOSIME' })
     expect(metadata.description).toBe('Test page description')
     expect(metadata.alternates).toEqual({ canonical: '/about' })
 
@@ -111,6 +112,16 @@ describe('SEO metadata utilities', () => {
       ],
       site: TWITTER_HANDLE,
     })
+  })
+
+  it('keeps exactly one brand suffix in page titles', () => {
+    expect(formatPageTitle('Selected Work & Client Projects — ITSEGHOSIME')).toBe(
+      'Selected Work & Client Projects — ITSEGHOSIME',
+    )
+    expect(
+      formatPageTitle('Selected Work & Client Projects — ITSEGHOSIME | ITSEGHOSIME'),
+    ).toBe('Selected Work & Client Projects — ITSEGHOSIME')
+    expect(formatPageTitle('Contact')).toBe('Contact — ITSEGHOSIME')
   })
 
   it('sets robots to false when noIndex is true', () => {
