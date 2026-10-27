@@ -25,9 +25,10 @@ function ProjectOutcome({ project }: { project: ProjectSummary }) {
   }
 
   return (
-    <p className="border-l-2 border-accent/35 pl-4 text-sm leading-6 text-ink-muted">
-      <span className="font-semibold text-ink">Outcome:</span> {outcome}
-    </p>
+    <div className="grid gap-1 border-l-2 border-accent/35 pl-4">
+      <h3 className="text-sm font-semibold text-ink">Outcome</h3>
+      <p className="text-sm leading-6 text-ink-muted">{outcome}</p>
+    </div>
   );
 }
 

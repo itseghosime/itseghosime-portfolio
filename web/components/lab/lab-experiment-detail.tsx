@@ -105,7 +105,7 @@ export function LabExperimentDetail({ experiment, content }: Props) {
               >
                 The question
               </h2>
-              <p className="mt-4 font-serif text-2xl leading-relaxed tracking-[-0.02em] text-ink">
+              <p className="mt-4 text-2xl leading-relaxed tracking-[-0.02em] text-ink">
                 {content.question}
               </p>
             </section>

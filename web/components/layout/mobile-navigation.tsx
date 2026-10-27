@@ -227,7 +227,7 @@ export function MobileNavigation({
                   <span className="text-xs font-semibold tracking-[0.06em] text-accent">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-serif text-4xl leading-none tracking-tight">
+                  <span className="text-4xl font-semibold leading-none tracking-tight">
                     {item.label}
                   </span>
                   {isExternal ? (

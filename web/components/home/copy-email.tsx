@@ -27,25 +27,27 @@ export function CopyEmail({ className, email }: CopyEmailProps) {
   }
 
   return (
-    <button className={classes} type="button" onClick={copyEmail}>
-      <span className="font-mono text-base font-medium text-ink md:text-lg">
-        {email}
-      </span>
-      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-muted transition-colors group-hover:text-accent">
-        {status === "copied" ? (
-          <>
-            Copied <Check aria-hidden="true" size={14} strokeWidth={2} />
-          </>
-        ) : (
-          "Click to copy"
-        )}
-      </span>
-      <span className="sr-only" aria-live="polite">
+    <div>
+      <button className={classes} type="button" onClick={copyEmail}>
+        <span className="font-mono text-base font-medium text-ink md:text-lg">
+          {email}
+        </span>
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-muted transition-colors group-hover:text-accent">
+          {status === "copied" ? (
+            <>
+              Copied <Check aria-hidden="true" size={14} strokeWidth={2} />
+            </>
+          ) : (
+            "Click to copy"
+          )}
+        </span>
+      </button>
+      <span className="sr-only" aria-live="polite" role="status">
         {status === "copied" ? "Email address copied to clipboard." : null}
         {status === "failed"
           ? "Copy failed. Use the email link instead."
           : null}
       </span>
-    </button>
+    </div>
   );
 }

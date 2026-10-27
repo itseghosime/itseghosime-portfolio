@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Link2, Mail, Share2, Type } from "lucide-react";
+import { Check, Link2, Mail, Share2 } from "lucide-react";
 import { useState } from "react";
 
 import type { NoteReaderLabels } from "@/types/notes";
@@ -13,13 +13,11 @@ type NoteReadingToolsProps = {
 };
 
 export function NoteReadingTools({
-  articleId,
   email,
   labels,
   title,
 }: NoteReadingToolsProps) {
   const [copied, setCopied] = useState(false);
-  const [serifBody, setSerifBody] = useState(false);
 
   async function copyLink() {
     await navigator.clipboard.writeText(window.location.href);
@@ -40,14 +38,6 @@ export function NoteReadingTools({
     await copyLink();
   }
 
-  function toggleTypeface() {
-    const article = document.getElementById(articleId);
-    if (!article) return;
-    const nextValue = !serifBody;
-    article.classList.toggle("font-serif", nextValue);
-    setSerifBody(nextValue);
-  }
-
   const feedbackHref = email
     ? `mailto:${email}?subject=${encodeURIComponent(`Feedback on ${title}`)}`
     : "/contact";
@@ -61,7 +51,7 @@ export function NoteReadingTools({
         </span>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <button
           className="group inline-flex min-h-14 flex-col items-center justify-center gap-1 border border-black/10 bg-surface px-2 text-[0.625rem] text-ink-muted transition-colors hover:border-black/25 hover:bg-surface-layer hover:text-ink"
           onClick={share}
@@ -89,19 +79,6 @@ export function NoteReadingTools({
             />
           )}
           {copied ? labels.copied : labels.copy}
-        </button>
-        <button
-          aria-pressed={serifBody}
-          className="group inline-flex min-h-14 flex-col items-center justify-center gap-1 border border-black/10 bg-surface px-2 text-[0.625rem] text-ink-muted transition-colors hover:border-black/25 hover:bg-surface-layer hover:text-ink"
-          onClick={toggleTypeface}
-          type="button"
-        >
-          <Type
-            aria-hidden="true"
-            className="group-hover:text-accent"
-            size={15}
-          />
-          {labels.typeface}
         </button>
       </div>
       <a

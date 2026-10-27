@@ -1,9 +1,24 @@
-import {ArrowDown} from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+
+import type { ProjectSummary } from "@/types/home";
 
 import { Container } from "@/components/ui/container";
 import { StatusBadge } from "@/components/ui/status-badge";
 
-export function HeroSection() {
+type HeroSectionProps = {
+  project?: ProjectSummary;
+};
+
+const transparentPixel =
+  "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+
+function sizedImageUrl(url: string, width: number): string {
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}auto=format&fit=max&q=82&w=${width}`;
+}
+
+export function HeroSection({ project }: HeroSectionProps) {
   return (
     <section
       className="relative isolate overflow-hidden border-b border-black/8"
@@ -47,7 +62,7 @@ export function HeroSection() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background/70 to-transparent" />
       </div>
 
-      <Container className="relative z-10 grid min-h-[calc(100svh-5rem)] content-center py-20 md:min-h-[34rem] md:py-20 lg:min-h-[38rem] lg:grid-cols-[minmax(0,7fr)_minmax(20rem,5fr)]" data-hero-content>
+      <Container className="relative z-10 grid min-h-[calc(100svh-5rem)] content-center gap-12 py-20 md:min-h-[34rem] md:py-20 lg:min-h-[38rem] lg:grid-cols-[minmax(0,7fr)_minmax(20rem,5fr)] lg:items-center" data-hero-content>
         <p className="absolute top-7 left-6 hidden text-[0.5625rem] font-semibold uppercase tracking-[0.16em] text-ink-muted/55 md:left-12 md:block">
           LAT: 09°04&apos;N · LON: 07°24&apos;E · UTC+1
         </p>
@@ -89,10 +104,57 @@ export function HeroSection() {
           </a>
         </div>
 
-        <div className="absolute right-6 bottom-7 hidden items-center gap-3 text-[0.5625rem] font-semibold uppercase tracking-[0.14em] text-ink-muted/55 md:flex md:right-12">
+        {project ? (
+          <Link
+            aria-label={`View ${project.title} case study`}
+            className="group relative hidden overflow-hidden rounded-xl border border-black/10 bg-surface shadow-[0_28px_70px_rgba(22,23,25,0.12)] no-underline lg:block"
+            href={`/work/${project.slug}`}
+            data-hero-reveal
+          >
+            <div className="aspect-[4/3] overflow-hidden bg-surface-layer">
+              <picture>
+                <source
+                  media="(min-width: 1024px)"
+                  srcSet={`${sizedImageUrl(project.coverImage.url, 640)} 640w, ${sizedImageUrl(project.coverImage.url, 960)} 960w`}
+                  sizes="(min-width: 1400px) 500px, 38vw"
+                />
+                <img
+                  alt={project.coverImage.alt}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
+                  decoding="async"
+                  fetchPriority="high"
+                  height={project.coverImage.height}
+                  src={transparentPixel}
+                  width={project.coverImage.width}
+                />
+              </picture>
+            </div>
+            <div className="flex items-center justify-between gap-4 border-t border-black/8 bg-surface/95 px-5 py-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-accent">
+                  Featured work
+                </p>
+                <p className="mt-1 text-sm font-semibold text-ink">
+                  {project.title}
+                </p>
+              </div>
+              <ArrowUpRight
+                aria-hidden="true"
+                className="shrink-0 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+                size={18}
+                strokeWidth={1.8}
+              />
+            </div>
+          </Link>
+        ) : null}
+
+        <a
+          className="absolute right-6 bottom-7 hidden min-h-11 items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-muted no-underline md:flex md:right-12"
+          href="#work"
+        >
           <span className="size-1.5 rounded-full bg-accent/65" />
-          <span>Move to explore</span>
-        </div>
+          <span>Scroll for selected work</span>
+        </a>
       </Container>
     </section>
   );

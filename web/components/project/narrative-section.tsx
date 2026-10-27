@@ -12,7 +12,7 @@ import { ProjectImage } from "./project-image";
 const portableTextComponents = {
   block: {
     blockquote: ({ children }) => (
-      <blockquote className="m-0 border-l-2 border-accent pl-5 font-serif text-xl leading-8 text-ink">
+      <blockquote className="m-0 border-l-2 border-accent pl-5 text-xl leading-8 text-ink">
         {children}
       </blockquote>
     ),

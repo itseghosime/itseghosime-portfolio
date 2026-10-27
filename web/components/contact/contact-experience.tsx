@@ -270,9 +270,9 @@ export function ContactExperience({
               <div className="border border-black/[0.1] bg-surface p-7 shadow-[var(--shadow-raised)] sm:p-8">
                 <div className="flex items-start justify-between gap-7">
                   <div>
-                    <p className="font-serif text-2xl leading-tight">
+                    <h3 className="font-serif text-2xl leading-tight">
                       Recruiter web summary
-                    </p>
+                    </h3>
                     <p className="mt-2 text-xs text-ink-muted">
                       Current professional snapshot
                     </p>

@@ -5,7 +5,6 @@ import { VisualEditing } from "next-sanity/visual-editing";
 
 import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider";
 import { ConnectivityStatus } from "@/components/system/connectivity-status";
-import { DeferredSanityLive } from "@/components/system/deferred-sanity-live";
 import { SanityLive, sanityFetch } from "@/sanity/lib/live";
 import { SITE_URL } from "@/lib/site";
 import {
@@ -54,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
     stega: false,
   });
   const { settings } = data;
-  const title = `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`;
+  const title = `${PROFESSIONAL_IDENTITY.fullName} (Osi) — ${PROFESSIONAL_IDENTITY.role}, Abuja`;
   const description = PROFESSIONAL_IDENTITY.description;
   const image = DEFAULT_SOCIAL_IMAGE;
   const shouldIndex =
@@ -126,11 +125,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <SmoothScrollProvider>
           {children}
-          {isDraftMode ? (
-            <SanityLive includeDrafts />
-          ) : (
-            <DeferredSanityLive />
-          )}
+          {isDraftMode ? <SanityLive includeDrafts /> : null}
           {isDraftMode ? <VisualEditing /> : null}
         </SmoothScrollProvider>
       </body>

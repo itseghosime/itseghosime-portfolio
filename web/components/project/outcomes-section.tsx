@@ -51,7 +51,7 @@ export function OutcomesSection({
           </div>
           {section.closingNote ? (
             <blockquote
-              className="m-0 max-w-4xl border-l-2 border-accent py-1 pl-6 font-serif text-xl leading-8 text-ink-soft sm:text-2xl sm:leading-9"
+              className="m-0 max-w-4xl border-l-2 border-accent py-1 pl-6 text-xl leading-8 text-ink-soft sm:text-2xl sm:leading-9"
               data-project-reveal
             >
               {section.closingNote}

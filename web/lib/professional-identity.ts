@@ -3,13 +3,14 @@ import {SITE_EMAIL, SITE_PHONE_E164, SITE_URL} from "./site";
 export const PROFESSIONAL_IDENTITY = {
   alternateNames: [
     "ITSEGHOSIME",
+    "Osi",
     "Abdulrahman Bello",
     "Itseghosime Bello",
     "Abdulrahman Itseghosime",
   ],
   award: "Best Web Graduating Student — EdoBits, 2021",
   description:
-    "Abdulrahman Itseghosime Bello is a software developer in Abuja, Nigeria, specialising in frontend engineering and accessible, responsive web products.",
+    "Abdulrahman Itseghosime Bello (Osi) is a software developer in Abuja, Nigeria, building accessible web products with React, Next.js and TypeScript.",
   fullName: "Abdulrahman Itseghosime Bello",
   location: "Abuja, Nigeria",
   role: "Software Developer",

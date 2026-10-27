@@ -24,7 +24,7 @@ export function TechnologiesSection({
           <h2 className="label-sm text-ink-muted" id="technologies-title">
             Core stack
           </h2>
-          <p className="max-w-4xl font-serif text-2xl leading-relaxed tracking-tight text-ink md:text-4xl">
+          <p className="max-w-4xl text-2xl leading-relaxed tracking-tight text-ink md:text-4xl">
             I ship responsive Next.js and TypeScript products, including
             multilingual sites with Sanity and Tailwind CSS.
           </p>

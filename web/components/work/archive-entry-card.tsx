@@ -96,7 +96,7 @@ function FeatureCard({
         <div className="grid gap-3">
           <EntryEyebrow entry={entry} index={index} />
           <h2 className="font-serif text-[clamp(2.25rem,5vw,4rem)] leading-[0.98] tracking-[-0.025em]">
-            {String(index + 1).padStart(2, "0")} / {entry.title}
+            {entry.title}
           </h2>
           <p className="max-w-3xl text-base leading-7 text-ink-soft">
             {entry.subtitle}
@@ -139,7 +139,7 @@ function SplitCard({
         <div className="grid gap-4">
           <EntryEyebrow entry={entry} index={index} />
           <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] leading-none tracking-[-0.022em]">
-            {String(index + 1).padStart(2, "0")} / {entry.title}
+            {entry.title}
           </h2>
           <p className="max-w-xl leading-7 text-ink-soft">{entry.subtitle}</p>
           <EntryDetails entry={entry} />
@@ -168,7 +168,7 @@ function WideCard({ entry, index }: Pick<ArchiveCardProps, "entry" | "index">) {
         <div className="grid gap-3">
           <EntryEyebrow entry={entry} index={index} />
           <h2 className="font-serif text-[clamp(2.1rem,5.2vw,4.5rem)] leading-[0.95] tracking-[-0.028em]">
-            {String(index + 1).padStart(2, "0")} / {entry.title}
+            {entry.title}
           </h2>
           <p className="max-w-3xl leading-7 text-ink-soft">{entry.subtitle}</p>
         </div>
@@ -207,7 +207,7 @@ function CompactCard({
       <div className="grid min-h-44 content-start gap-3 pb-5">
         <EntryEyebrow entry={entry} index={index} />
         <h2 className="font-serif text-[clamp(1.65rem,3vw,2.25rem)] leading-[1.04] tracking-[-0.018em]">
-          {String(index + 1).padStart(2, "0")} / {entry.title}
+          {entry.title}
         </h2>
         <p className="line-clamp-3 text-sm leading-6 text-ink-soft">
           {entry.subtitle}

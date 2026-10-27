@@ -30,7 +30,7 @@ export const OPEN_GRAPH_LOCALE = "en_NG";
 export const TWITTER_HANDLE = "@itseghosime";
 
 export const DEFAULT_SOCIAL_IMAGE: ImageAsset = {
-  alt: "ITSEGHOSIME — Abdulrahman Itseghosime Bello, Software Developer",
+  alt: "ITSEGHOSIME — Abdulrahman Itseghosime Bello (Osi), Software Developer",
   height: 630,
   url: absoluteUrl("/og-default.png"),
   width: 1200,

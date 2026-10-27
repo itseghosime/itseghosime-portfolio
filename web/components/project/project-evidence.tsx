@@ -47,7 +47,7 @@ export function ProjectEvidence({ project }: { project: ProjectPageData }) {
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.09em] text-accent">
             Verified project proof
           </p>
-          <p className="mt-2 font-serif text-3xl leading-none tracking-[-0.02em] sm:text-4xl">
+          <p className="mt-2 text-3xl font-semibold leading-none tracking-[-0.02em] sm:text-4xl">
             {evidence.value}
           </p>
         </div>

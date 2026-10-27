@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getHomePage } from "@/sanity/lib/home";
 import { createPageMetadata, resolveSocialImage } from "@/lib/seo";
+import { getProjectSocialImage } from "@/lib/project-social-images";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 import { getStaticPageSeo } from "@/sanity/lib/seo";
 import {
@@ -39,7 +40,9 @@ export async function generateMetadata({
     project.summary ??
     project.subtitle ??
     undefined;
-  const image = project.seo?.image?.url ? project.seo.image : project.coverImage;
+  const image =
+    getProjectSocialImage(slug) ??
+    (project.seo?.image?.url ? project.seo.image : project.coverImage);
   const metadata = createPageMetadata({
     defaultImage: siteSeo.settings?.defaultSeo?.image,
     description: description || `${project.title} frontend development case study.`,

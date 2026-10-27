@@ -243,7 +243,7 @@ export function NotesArchive({
             <dt className="font-mono text-[0.625rem] uppercase tracking-[0.09em] text-ink-muted">
               Published
             </dt>
-            <dd className="mt-1 font-serif text-2xl">
+            <dd className="mt-1 text-2xl font-semibold">
               {String(notes.length).padStart(2, "0")} notes
             </dd>
           </div>
@@ -251,13 +251,13 @@ export function NotesArchive({
             <dt className="font-mono text-[0.625rem] uppercase tracking-[0.09em] text-ink-muted">
               Core disciplines
             </dt>
-            <dd className="mt-1 font-serif text-2xl">Frontend systems</dd>
+            <dd className="mt-1 text-2xl font-semibold">Frontend systems</dd>
           </div>
           <div className="py-4 sm:pl-6">
             <dt className="font-mono text-[0.625rem] uppercase tracking-[0.09em] text-ink-muted">
               Format
             </dt>
-            <dd className="mt-1 font-serif text-2xl">Working notebook</dd>
+            <dd className="mt-1 text-2xl font-semibold">Working notebook</dd>
           </div>
         </dl>
       </header>
@@ -325,7 +325,7 @@ export function NotesArchive({
           {visibleNotes.length === 0 ? (
             <div className="grid min-h-48 place-items-center border-b border-black/[0.09] py-12 text-center">
               <div>
-                <p className="font-serif text-2xl">No matching notes.</p>
+                <h2 className="font-serif text-2xl">No matching notes.</h2>
                 <button
                   className="mt-4 text-xs font-semibold text-accent underline underline-offset-4"
                   onClick={() => {
@@ -343,7 +343,7 @@ export function NotesArchive({
         </div>
 
         <div className="mt-8 grid gap-5 border border-black/[0.09] bg-surface p-5 sm:grid-cols-[auto_1fr_auto] sm:items-center sm:p-6">
-          <span className="grid size-10 place-items-center border border-black/10 bg-white font-serif text-xl text-accent">
+          <span className="grid size-10 place-items-center border border-black/10 bg-white text-xl font-semibold text-accent">
             i
           </span>
           <div>

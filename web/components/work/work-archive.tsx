@@ -1,11 +1,11 @@
 "use client";
 
 import gsap from "gsap";
-import { ArrowRight, FilterX } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-import type { ArchiveEntry, ArchiveFilter } from "@/types/work";
+import type { ArchiveEntry } from "@/types/work";
 
 import { Container } from "@/components/ui/container";
 
@@ -13,15 +13,7 @@ import { ArchiveEntryCard } from "./archive-entry-card";
 
 type WorkArchiveProps = {
   entries: ArchiveEntry[];
-  initialFilter?: ArchiveFilter;
 };
-
-const filters: Array<{ label: string; value: ArchiveFilter }> = [
-  { label: "All", value: "all" },
-  { label: "Client work", value: "client" },
-  { label: "Web", value: "web" },
-  { label: "Experimental", value: "experimental" },
-];
 
 function formatCount(count: number): string {
   return String(count).padStart(2, "0");
@@ -111,63 +103,8 @@ function IndexCollection({ entries }: { entries: ArchiveEntry[] }) {
   );
 }
 
-export function WorkArchive({
-  entries,
-  initialFilter = "all",
-}: WorkArchiveProps) {
-  const [filter, setFilter] = useState<ArchiveFilter>(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const paramFilter = params.get("filter");
-      if (
-        paramFilter === "client" ||
-        paramFilter === "web" ||
-        paramFilter === "experimental"
-      ) {
-        return paramFilter;
-      }
-    }
-    return initialFilter;
-  });
-  const [query, setQuery] = useState("");
+export function WorkArchive({ entries }: WorkArchiveProps) {
   const archiveRef = useRef<HTMLDivElement>(null);
-
-  const counts = useMemo(
-    () => ({
-      all: entries.length,
-      client: entries.filter((entry) => entry.categories.includes("client"))
-        .length,
-      experimental: entries.filter((entry) =>
-        entry.categories.includes("experimental"),
-      ).length,
-      web: entries.filter((entry) => entry.categories.includes("web")).length,
-    }),
-    [entries],
-  );
-
-  const visibleEntries = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return entries.filter((entry) => {
-      const matchesFilter =
-        filter === "all" || entry.categories.includes(filter);
-      const searchable = [
-        entry.title,
-        entry.subtitle,
-        entry.type,
-        entry.role,
-        ...entry.technologies,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      return (
-        matchesFilter &&
-        (!normalizedQuery || searchable.includes(normalizedQuery))
-      );
-    });
-  }, [entries, filter, query]);
 
   useEffect(() => {
     const root = archiveRef.current;
@@ -237,7 +174,7 @@ export function WorkArchive({
     });
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [filter, query, visibleEntries.length]);
+  }, [entries.length]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -332,17 +269,6 @@ export function WorkArchive({
     };
   }, []);
 
-  function selectFilter(nextFilter: ArchiveFilter) {
-    setFilter(nextFilter);
-    const url = new URL(window.location.href);
-    if (nextFilter === "all") {
-      url.searchParams.delete("filter");
-    } else {
-      url.searchParams.set("filter", nextFilter);
-    }
-    window.history.replaceState({}, "", url);
-  }
-
   return (
     <div ref={archiveRef}>
       <section
@@ -396,94 +322,26 @@ export function WorkArchive({
             </p>
           </div>
 
-          <div
-            className="flex flex-col justify-between gap-5 border-t border-black/8 pt-4 lg:flex-row lg:items-end"
-            data-archive-hero
-          >
-            <div
-              className="flex flex-wrap gap-x-7 gap-y-2"
-              aria-label="Filter archive"
-            >
-              {filters.map((item) => (
-                <button
-                  className={`relative min-h-9 cursor-pointer bg-transparent text-xs transition-colors after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:origin-left after:bg-ink after:transition-transform ${
-                    filter === item.value
-                      ? "text-ink after:scale-x-100"
-                      : "text-ink-muted after:scale-x-0 hover:text-ink"
-                  }`}
-                  aria-pressed={filter === item.value}
-                  key={item.value}
-                  onClick={() => selectFilter(item.value)}
-                  type="button"
-                >
-                  {item.label} ({formatCount(counts[item.value])})
-                </button>
-              ))}
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <label className="grid gap-2">
-                <span className="font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-muted">
-                  Search work
-                </span>
-                <span className="relative block">
-                <span
-                  className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-muted"
-                  aria-hidden="true"
-                >
-                  ⌕
-                </span>
-                <input
-                  className="h-10 w-full min-w-48 border border-black/10 bg-surface py-2 pr-3 pl-8 text-xs outline-none transition-colors placeholder:text-ink-muted focus:border-accent sm:w-56"
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search work..."
-                  type="search"
-                  value={query}
-                />
-                </span>
-              </label>
-            </div>
+          <div className="border-t border-black/8 pt-4" data-archive-hero>
+            <p className="max-w-xl text-sm leading-6 text-ink-muted">
+              A concise selection, presented without filters so the work is
+              immediately visible.
+            </p>
           </div>
         </Container>
       </section>
 
       <section
         className="py-20 md:py-28"
-        aria-live="polite"
         aria-label="Archive entries"
       >
         <Container>
-          {visibleEntries.length > 0 ? (
-            <>
-              <div className="hidden md:block">
-                <VisualCollection entries={visibleEntries} />
-              </div>
-              <div className="md:hidden">
-                <IndexCollection entries={visibleEntries} />
-              </div>
-            </>
-          ) : (
-            <div className="grid min-h-80 place-content-center border-y border-black/10 px-6 text-center">
-              <span className="mx-auto grid size-12 place-items-center rounded-full bg-surface-container text-ink-muted">
-                <FilterX aria-hidden="true" size={20} strokeWidth={1.6} />
-              </span>
-              <p className="mt-5 font-serif text-3xl">Nothing here yet.</p>
-              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-ink-muted">
-                No projects match this search and filter combination. Clear the
-                current query to return to the complete archive.
-              </p>
-              <button
-                className="mx-auto mt-6 inline-flex min-h-11 items-center gap-2 border border-black/15 bg-surface px-5 text-sm font-semibold transition-colors hover:border-ink hover:bg-surface-container"
-                onClick={() => {
-                  setFilter("all");
-                  setQuery("");
-                }}
-                type="button"
-              >
-                <FilterX aria-hidden="true" size={15} /> Clear filters
-              </button>
-            </div>
-          )}
+          <div className="hidden md:block">
+            <VisualCollection entries={entries} />
+          </div>
+          <div className="md:hidden">
+            <IndexCollection entries={entries} />
+          </div>
         </Container>
       </section>
     </div>

@@ -13,10 +13,10 @@ const content = `# Abdulrahman Itseghosime Bello
 - Role: Software Developer
 - Specialism: Frontend engineering
 - Location: Abuja, Nigeria
-- Portfolio: ${SITE_URL}
-- Email: ${SITE_EMAIL}
-- GitHub: https://github.com/itseghosime
-- LinkedIn: https://www.linkedin.com/in/itseghosime
+- Portfolio: [itseghosime.com](${SITE_URL})
+- Email: [${SITE_EMAIL}](mailto:${SITE_EMAIL})
+- GitHub: [github.com/itseghosime](https://github.com/itseghosime)
+- LinkedIn: [linkedin.com/in/itseghosime](https://www.linkedin.com/in/itseghosime)
 
 ## Work
 
@@ -26,11 +26,11 @@ Core technologies include React, Next.js, TypeScript, JavaScript, Tailwind CSS, 
 
 ## Selected projects
 
-- Creele Studios: Complete responsive Next.js website built from a supplied design with fullPage.js, Swiper, GSAP, audio playback, Formspree, deployment and DNS configuration. https://creelestudios.com/
-- RawLab Ventures: Responsive HubSpot CMS implementation from Figma with reusable components and two Jotform lead flows. https://www.rawlab.ventures/
-- Skinny Cans: Responsive Next.js website with multilingual routing, optimised media, deployment and DNS configuration. https://skinnycans.com/
-- EnvGuard: Open-source TypeScript CLI for checking environment configuration without exposing secret values, backed by 35 automated tests and GitHub Actions. https://github.com/itseghosime/envguard
-- Lumina Web3: React website later migrated to WordPress so the client could manage content independently. https://www.luminaweb3.io/
+- [Creele Studios](${SITE_URL}/work/creele-studios): Complete responsive Next.js website built from a supplied design with fullPage.js, Swiper, GSAP, audio playback, Formspree, deployment and DNS configuration.
+- [RawLab Ventures](${SITE_URL}/work/rawlab-ventures): Responsive HubSpot CMS implementation from Figma with reusable components and two Jotform lead flows.
+- [Skinny Cans](${SITE_URL}/work/skinny-cans): Responsive Next.js website with multilingual routing, optimised media, deployment and DNS configuration.
+- [EnvGuard](${SITE_URL}/lab/envguard): Open-source TypeScript CLI for checking environment configuration without exposing secret values, backed by 35 automated tests and GitHub Actions.
+- [Lumina Web3](https://www.luminaweb3.io/): React website later migrated to WordPress so the client could manage content independently.
 
 ## Experience and education
 
@@ -43,12 +43,12 @@ Core technologies include React, Next.js, TypeScript, JavaScript, Tailwind CSS, 
 
 ## Canonical pages
 
-- About: ${SITE_URL}/about
-- Work: ${SITE_URL}/work
-- CV: ${SITE_URL}/cv
-- Lab: ${SITE_URL}/lab
-- Notes: ${SITE_URL}/notes
-- Contact: ${SITE_URL}/contact
+- [About](${SITE_URL}/about)
+- [Work](${SITE_URL}/work)
+- [CV](${SITE_URL}/cv)
+- [Lab](${SITE_URL}/lab)
+- [Notes](${SITE_URL}/notes)
+- [Contact](${SITE_URL}/contact)
 `;
 
 export function GET() {

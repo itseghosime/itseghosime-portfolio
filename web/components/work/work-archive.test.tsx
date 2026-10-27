@@ -1,5 +1,4 @@
-import userEvent from '@testing-library/user-event'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { WorkArchive } from './work-archive'
 import type { ArchiveEntry } from '@/types/work'
@@ -50,50 +49,20 @@ describe('WorkArchive component', () => {
     },
   ]
 
-  it('renders all archive entries initially under "All" filter', () => {
+  it('renders the complete curated archive', () => {
     render(<WorkArchive entries={sampleEntries} />)
 
-    expect(screen.getByText('Skinny Cans')).toBeDefined()
-    expect(screen.getByText('Rawlab Ventures')).toBeDefined()
-    expect(screen.getByText('Kinetic Typography')).toBeDefined()
+    expect(screen.getAllByRole('heading', { name: 'Skinny Cans' })).toHaveLength(2)
+    expect(screen.getAllByRole('heading', { name: 'Rawlab Ventures' })).toHaveLength(2)
+    expect(screen.getAllByRole('heading', { name: 'Kinetic Typography' })).toHaveLength(2)
   })
 
-  it('filters entries when a category button is clicked', async () => {
-    const user = userEvent.setup()
+  it('does not expose search, filters or redundant view controls for four entries', () => {
     render(<WorkArchive entries={sampleEntries} />)
 
-    const clientFilter = screen.getByRole('button', { name: /Client work/i })
-    await user.click(clientFilter)
-
-    expect(screen.getByText('Skinny Cans')).toBeDefined()
-    expect(screen.queryByText('Rawlab Ventures')).toBeNull()
-    expect(screen.queryByText('Kinetic Typography')).toBeNull()
-  })
-
-  it('uses a labelled search field and does not expose redundant view controls', () => {
-    render(<WorkArchive entries={sampleEntries} />)
-
-    expect(screen.getByRole('searchbox', { name: /Search work/i })).toBeDefined()
+    expect(screen.queryByRole('searchbox')).toBeNull()
+    expect(screen.queryByRole('button', { name: /Client work/i })).toBeNull()
     expect(screen.queryByRole('button', { name: /^visual$/i })).toBeNull()
     expect(screen.queryByRole('button', { name: /^index$/i })).toBeNull()
-  })
-
-  it('filters entries via search input and shows empty state when no match is found', async () => {
-    const user = userEvent.setup()
-    render(<WorkArchive entries={sampleEntries} />)
-
-    const searchInput = screen.getByRole('searchbox', { name: /Search work/i })
-    await user.type(searchInput, 'NonExistentTech')
-
-    await waitFor(() => {
-      expect(screen.getByText('Nothing here yet.')).toBeDefined()
-      expect(screen.getByRole('button', { name: /Clear filters/i })).toBeDefined()
-    })
-
-    // Clear filters button restores entries
-    const clearButton = screen.getByRole('button', { name: /Clear filters/i })
-    await user.click(clearButton)
-
-    expect(screen.getByText('Skinny Cans')).toBeDefined()
   })
 })

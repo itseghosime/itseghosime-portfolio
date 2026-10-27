@@ -223,9 +223,9 @@ export function LabView({ experiments, page }: LabViewProps) {
             className="grid min-h-72 place-items-center border-b border-black/[0.08] py-16 text-center"
           >
             <div className="max-w-md space-y-3">
-              <p className="font-serif text-3xl tracking-[-0.03em]">
+              <h2 className="font-serif text-3xl tracking-[-0.03em]">
                 The bench is being prepared.
-              </p>
+              </h2>
               <p className="leading-7 text-ink-muted">
                 Published experiments in this category will appear here.
               </p>

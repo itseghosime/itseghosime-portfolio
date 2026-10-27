@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 
   const { settings } = data;
-  const title = `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`;
+  const title = `${PROFESSIONAL_IDENTITY.fullName} (Osi) — ${PROFESSIONAL_IDENTITY.role}, Abuja`;
   const description = PROFESSIONAL_IDENTITY.description;
   const metadataBase = safeUrl(settings?.canonicalUrl) ?? new URL(SITE_URL);
   const shouldIndex =
@@ -122,7 +122,11 @@ export default async function Home() {
         "@id": websiteId,
         "@type": "WebSite",
         name: page.siteName,
-        alternateName: ["ITSEGHOSIME Portfolio", PROFESSIONAL_IDENTITY.fullName],
+        alternateName: [
+          "ITSEGHOSIME Portfolio",
+          PROFESSIONAL_IDENTITY.fullName,
+          "Osi",
+        ],
         description: PROFESSIONAL_IDENTITY.description,
         inLanguage: "en",
         about: {
@@ -136,7 +140,7 @@ export default async function Home() {
       {
         "@id": profilePageId,
         "@type": "ProfilePage",
-        name: `${PROFESSIONAL_IDENTITY.fullName} — ${PROFESSIONAL_IDENTITY.role}`,
+        name: `${PROFESSIONAL_IDENTITY.fullName} (Osi) — ${PROFESSIONAL_IDENTITY.role}, Abuja`,
         description: PROFESSIONAL_IDENTITY.description,
         isPartOf: {
           "@id": websiteId,
@@ -162,7 +166,12 @@ export default async function Home() {
           }}
           type="application/ld+json"
         />
-        <HeroSection />
+        <HeroSection
+          project={
+            page.projects.find((project) => project.slug === "creele-studios") ??
+            page.projects[0]
+          }
+        />
         <WorkSection projects={page.projects} />
         <CapabilitiesSection capabilities={page.capabilities} />
         <TechnologiesSection technologies={page.technologies} />

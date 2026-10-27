@@ -104,7 +104,7 @@ export function NoteDetail({ data }: { data: NoteDetailData }) {
                 <h1 className="mt-5 max-w-[44rem] font-serif text-[clamp(2.75rem,5.2vw,3.25rem)] leading-[1.08] tracking-[-0.035em] text-ink">
                   {note.title}
                 </h1>
-                <p className="mt-6 max-w-[42rem] font-serif-italic text-xl italic leading-8 text-ink-soft sm:text-2xl sm:leading-9">
+                <p className="mt-6 max-w-[42rem] text-xl italic leading-8 text-ink-soft sm:text-2xl sm:leading-9">
                   {note.excerpt}
                 </p>
 
@@ -201,7 +201,7 @@ export function NoteDetail({ data }: { data: NoteDetailData }) {
                 <span className="font-mono text-[0.625rem] uppercase tracking-[0.09em] text-ink-muted">
                   Previous note
                 </span>
-                <span className="mt-3 flex items-start gap-3 font-serif text-2xl leading-tight group-hover:text-accent">
+                <span className="mt-3 flex items-start gap-3 text-2xl font-semibold leading-tight group-hover:text-accent">
                   <ArrowLeft
                     aria-hidden="true"
                     className="mt-1 shrink-0"
@@ -221,7 +221,7 @@ export function NoteDetail({ data }: { data: NoteDetailData }) {
                 <span className="font-mono text-[0.625rem] uppercase tracking-[0.09em] text-ink-muted">
                   Next note
                 </span>
-                <span className="mt-3 flex items-start justify-end gap-3 font-serif text-2xl leading-tight group-hover:text-accent">
+                <span className="mt-3 flex items-start justify-end gap-3 text-2xl font-semibold leading-tight group-hover:text-accent">
                   {data.adjacent.next.title}
                   <ArrowRight
                     aria-hidden="true"
