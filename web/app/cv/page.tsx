@@ -46,7 +46,10 @@ export default async function CvPage() {
     name: "CV of Abdulrahman Itseghosime Bello",
     description:
       "Professional experience, selected work, education and training for Abdulrahman Itseghosime Bello.",
-    mainEntity: { "@id": `${SITE_URL}/#person` },
+    mainEntity: {
+      "@id": `${SITE_URL}/#person`,
+      "@type": "Person",
+    },
     url: `${SITE_URL}/cv`,
   };
 
